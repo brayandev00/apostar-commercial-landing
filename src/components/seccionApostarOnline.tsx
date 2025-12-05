@@ -94,15 +94,16 @@ export function SeccionApostarOnline() {
                         <div className="relative">
                             {/* Main Image Container */}
                             {/* Main Image Container */}
-                            <div className="relative rounded-3xl overflow-hidden shadow-2xl border-0 ring-1 ring-white/20 bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-lg transform hover:scale-105 transition-all duration-500 group">
-                                <div className="absolute inset-0 bg-gradient-to-tr from-primary/20 via-transparent to-secondary/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                                <div className="aspect-[16/10] bg-white/5 p-6 backdrop-blur-sm relative z-10 flex items-center justify-center">
-                                    <div className="absolute inset-0 bg-gradient-to-br from-white/10 to-transparent opacity-50" />
+                            <div className="relative rounded-3xl overflow-hidden shadow-2xl border border-white/10 bg-black/20 transform hover:scale-[1.02] transition-all duration-500 group">
+                                <div className="absolute inset-0 bg-gradient-to-tr from-primary/10 via-transparent to-secondary/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500 z-10" />
+                                <div className="aspect-[16/9] relative z-0">
                                     <img
                                         src="/images/AposOnline.png"
                                         alt="Plataforma Apostar Online"
-                                        className="w-full h-full object-contain drop-shadow-2xl relative z-20"
+                                        className="w-full h-full object-cover"
                                     />
+                                    {/* Glossy Overlay */}
+                                    <div className="absolute inset-0 bg-gradient-to-b from-white/5 to-transparent opacity-50 z-20 pointer-events-none" />
                                 </div>
                             </div>
 

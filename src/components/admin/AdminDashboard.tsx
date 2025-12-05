@@ -14,6 +14,10 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Badge } from "@/components/ui/badge"
 import { Loader2, Plus, Pencil, Trash2, Save, Upload, Image as ImageIcon, FileText } from "lucide-react"
 
+import { ProductsManager } from "@/components/admin/ProductsManager"
+import { StatisticsManager } from "@/components/admin/StatisticsManager"
+import { Toaster } from "@/components/ui/toaster"
+
 // Types
 interface Raffle {
     id: number
@@ -27,22 +31,6 @@ interface Raffle {
     promotionalMaterial: {
         images: string[]
         pdfs: { name: string; url: string }[]
-    }
-}
-
-interface Product {
-    id: number
-    name: string
-    description: string
-    available: boolean
-    category: string
-    icon: string
-    details: {
-        fullDescription: string
-        benefits: string[]
-        requirements: string[]
-        commission: string
-        minInvestment: string
     }
 }
 
@@ -78,11 +66,12 @@ export function AdminDashboard() {
             </div>
 
             <Tabs defaultValue="sorteos" className="space-y-4">
-                <TabsList>
-                    <TabsTrigger value="sorteos">Gestión de Sorteos</TabsTrigger>
-                    <TabsTrigger value="destacados">Sorteos Destacados</TabsTrigger>
-                    <TabsTrigger value="noticias">Noticias</TabsTrigger>
-                    <TabsTrigger value="productos">Portafolio de Productos</TabsTrigger>
+                <TabsList className="mb-4 flex-wrap h-auto gap-2 bg-transparent justify-start p-0">
+                    <TabsTrigger value="sorteos" className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground border">Gestión de Sorteos</TabsTrigger>
+                    <TabsTrigger value="destacados" className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground border">Sorteos Destacados</TabsTrigger>
+                    <TabsTrigger value="noticias" className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground border">Noticias</TabsTrigger>
+                    <TabsTrigger value="productos" className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground border">Portafolio de Productos</TabsTrigger>
+                    <TabsTrigger value="estadisticas" className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground border">Estadísticas</TabsTrigger>
                 </TabsList>
 
                 <TabsContent value="sorteos" className="space-y-4">
@@ -100,10 +89,16 @@ export function AdminDashboard() {
                 <TabsContent value="productos" className="space-y-4">
                     <ProductsManager />
                 </TabsContent>
+
+                <TabsContent value="estadisticas" className="space-y-4">
+                    <StatisticsManager />
+                </TabsContent>
             </Tabs>
+            <Toaster />
         </div>
     )
 }
+
 
 function RafflesManager() {
     const [raffles, setRaffles] = useState<Raffle[]>([])
@@ -361,169 +356,7 @@ function RafflesManager() {
     )
 }
 
-function ProductsManager() {
-    const [products, setProducts] = useState<Product[]>([])
-    const [loading, setLoading] = useState(true)
-    const [isDialogOpen, setIsDialogOpen] = useState(false)
-    const [currentProduct, setCurrentProduct] = useState<Partial<Product>>({
-        details: { benefits: [], requirements: [], fullDescription: "", commission: "", minInvestment: "" }
-    })
 
-    useEffect(() => {
-        fetchProducts()
-    }, [])
-
-    const fetchProducts = async () => {
-        try {
-            const res = await fetch("/api/productos")
-            const data = await res.json()
-            setProducts(data)
-        } catch (error) {
-            console.error("Error fetching products:", error)
-        } finally {
-            setLoading(false)
-        }
-    }
-
-    const handleSave = async () => {
-        const updatedProducts = currentProduct.id
-            ? products.map(p => p.id === currentProduct.id ? currentProduct as Product : p)
-            : [...products, { ...currentProduct, id: Date.now() } as Product]
-
-        try {
-            await fetch("/api/productos", { method: "POST", body: JSON.stringify(updatedProducts) })
-            setProducts(updatedProducts)
-            setIsDialogOpen(false)
-        } catch (error) {
-            console.error("Error saving product:", error)
-        }
-    }
-
-    // Helper to handle array inputs like benefits/requirements
-    const handleArrayInput = (value: string, field: 'benefits' | 'requirements') => {
-        const array = value.split('\n').filter(line => line.trim() !== '')
-        setCurrentProduct(prev => ({
-            ...prev,
-            details: {
-                ...prev.details!,
-                [field]: array
-            }
-        }))
-    }
-
-    if (loading) return <div className="flex justify-center p-8"><Loader2 className="h-8 w-8 animate-spin" /></div>
-
-    return (
-        <Card>
-            <CardHeader>
-                <CardTitle>Portafolio de Productos</CardTitle>
-                <CardDescription>Edita los detalles, requisitos y beneficios de cada producto.</CardDescription>
-            </CardHeader>
-            <CardContent>
-                <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-                    {products.map((product) => (
-                        <Card key={product.id} className="relative group border hover:border-primary transition-colors">
-                            <CardHeader>
-                                <div className="flex justify-between items-start">
-                                    <CardTitle className="text-lg">{product.name}</CardTitle>
-                                    <Badge variant="outline">{product.category}</Badge>
-                                </div>
-                            </CardHeader>
-                            <CardContent>
-                                <p className="text-sm text-muted-foreground mb-4 line-clamp-3">
-                                    {product.description}
-                                </p>
-                                <Button className="w-full" variant="outline" onClick={() => { setCurrentProduct(product); setIsDialogOpen(true) }}>
-                                    <Pencil className="h-4 w-4 mr-2" /> Editar Detalles
-                                </Button>
-                            </CardContent>
-                        </Card>
-                    ))}
-
-                    {/* Add Product Button could go here */}
-                    <Card className="flex flex-col items-center justify-center border-dashed p-6 cursor-pointer hover:bg-muted/50 transition-colors"
-                        onClick={() => {
-                            setCurrentProduct({
-                                details: { benefits: [], requirements: [], fullDescription: "", commission: "", minInvestment: "" },
-                                available: true,
-                                icon: "CheckCircle2"
-                            })
-                            setIsDialogOpen(true)
-                        }}
-                    >
-                        <Plus className="h-8 w-8 text-muted-foreground mb-2" />
-                        <p className="font-medium text-muted-foreground">Agregar Nuevo Producto</p>
-                    </Card>
-                </div>
-
-                <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-                    <DialogContent className="max-w-3xl max-h-[90vh] overflow-y-auto">
-                        <DialogHeader>
-                            <DialogTitle>{currentProduct.id ? "Editar Producto" : "Nuevo Producto"}</DialogTitle>
-                        </DialogHeader>
-                        <div className="grid gap-6 py-4">
-                            <div className="grid grid-cols-2 gap-4">
-                                <div className="space-y-2">
-                                    <Label>Nombre</Label>
-                                    <Input value={currentProduct.name || ""} onChange={(e) => setCurrentProduct({ ...currentProduct, name: e.target.value })} />
-                                </div>
-                                <div className="space-y-2">
-                                    <Label>Categoría</Label>
-                                    <Input value={currentProduct.category || ""} onChange={(e) => setCurrentProduct({ ...currentProduct, category: e.target.value })} />
-                                </div>
-                            </div>
-
-                            <div className="space-y-2">
-                                <Label>Descripción Corta (Tarjeta)</Label>
-                                <Textarea value={currentProduct.description || ""} onChange={(e) => setCurrentProduct({ ...currentProduct, description: e.target.value })} />
-                            </div>
-
-                            <div className="space-y-2">
-                                <Label>Descripción Completa (Modal)</Label>
-                                <Textarea className="h-24" value={currentProduct.details?.fullDescription || ""} onChange={(e) => setCurrentProduct({ ...currentProduct, details: { ...currentProduct.details!, fullDescription: e.target.value } })} />
-                            </div>
-
-                            <div className="grid grid-cols-2 gap-6">
-                                <div className="space-y-2">
-                                    <Label>Beneficios (Uno por línea)</Label>
-                                    <Textarea
-                                        className="h-32 font-mono text-xs"
-                                        placeholder="- Beneficio 1&#10;- Beneficio 2"
-                                        value={currentProduct.details?.benefits?.join('\n') || ""}
-                                        onChange={(e) => handleArrayInput(e.target.value, 'benefits')}
-                                    />
-                                </div>
-                                <div className="space-y-2">
-                                    <Label>Requisitos (Uno por línea)</Label>
-                                    <Textarea
-                                        className="h-32 font-mono text-xs"
-                                        placeholder="- Requisito 1&#10;- Requisito 2"
-                                        value={currentProduct.details?.requirements?.join('\n') || ""}
-                                        onChange={(e) => handleArrayInput(e.target.value, 'requirements')}
-                                    />
-                                </div>
-                            </div>
-
-                            <div className="grid grid-cols-2 gap-4">
-                                <div className="space-y-2">
-                                    <Label>Texto de Comisión</Label>
-                                    <Input value={currentProduct.details?.commission || ""} onChange={(e) => setCurrentProduct({ ...currentProduct, details: { ...currentProduct.details!, commission: e.target.value } })} />
-                                </div>
-                                <div className="space-y-2">
-                                    <Label>Texto de Inversión</Label>
-                                    <Input value={currentProduct.details?.minInvestment || ""} onChange={(e) => setCurrentProduct({ ...currentProduct, details: { ...currentProduct.details!, minInvestment: e.target.value } })} />
-                                </div>
-                            </div>
-                        </div>
-                        <DialogFooter>
-                            <Button onClick={handleSave} className="w-full sm:w-auto">Guardar Producto</Button>
-                        </DialogFooter>
-                    </DialogContent>
-                </Dialog>
-            </CardContent>
-        </Card>
-    )
-}
 
 function FeaturedRafflesManager() {
     const [raffles, setRaffles] = useState<FeaturedRaffle[]>([])

@@ -1,4 +1,4 @@
-"use client"
+﻿"use client"
 
 import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
@@ -97,10 +97,33 @@ export function CarruselSorteosDestacados() {
                             {raffles.map((raffle, idx) => (
                                 <div key={raffle.id} className="flex-[0_0_100%] min-w-0 px-4">
                                     <Card className="border-0 shadow-2xl overflow-hidden max-w-4xl mx-auto">
-                                        <CardContent className={`p-0 bg-gradient-to-br ${gradients[idx % gradients.length]} relative`}>
-                                            {/* Decorative circles */}
-                                            <div className="absolute top-0 right-0 w-64 h-64 bg-white/10 rounded-full -translate-y-1/2 translate-x-1/3" />
-                                            <div className="absolute bottom-0 left-0 w-48 h-48 bg-white/10 rounded-full translate-y-1/2 -translate-x-1/4" />
+                                        <CardContent className="p-0 relative">
+                                            {/* Background Image */}
+                                            {/* Background Image */}
+                                            {raffle.imagen && (
+                                                <>
+                                                    <img
+                                                        src={raffle.imagen}
+                                                        alt={raffle.titulo}
+                                                        className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 hover:scale-105"
+                                                    />
+                                                    {/* Subtle Gradient Overlay for Text Readability */}
+                                                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
+                                                </>
+                                            )}
+                                            {/* Fallback gradient if no image */}
+                                            {!raffle.imagen && (
+                                                <div className={`absolute inset-0 bg-gradient-to-br ${gradients[idx % gradients.length]}`} />
+                                            )}
+
+                                            {/* Decorative circles - only show if no image or make subtle */}
+                                            {!raffle.imagen && (
+                                                <>
+                                                    <div className="absolute top-0 right-0 w-64 h-64 bg-white/10 rounded-full -translate-y-1/2 translate-x-1/3" />
+                                                    <div className="absolute bottom-0 left-0 w-48 h-48 bg-white/10 rounded-full translate-y-1/2 -translate-x-1/4" />
+                                                </>
+                                            )}
+
 
                                             <div className="relative z-10 p-8 md:p-12">
                                                 {/* Badge */}
@@ -112,12 +135,12 @@ export function CarruselSorteosDestacados() {
                                                 </div>
 
                                                 {/* Title */}
-                                                <h3 className="text-3xl md:text-4xl font-bold text-white mb-4">
+                                                <h3 className="text-3xl md:text-4xl font-bold text-white mb-4 drop-shadow-md">
                                                     {raffle.titulo}
                                                 </h3>
 
                                                 {/* Description */}
-                                                <p className="text-lg text-white/90 mb-6 line-clamp-2">
+                                                <p className="text-lg text-white/90 mb-6 line-clamp-2 drop-shadow-sm font-medium">
                                                     {raffle.descripcion}
                                                 </p>
 
