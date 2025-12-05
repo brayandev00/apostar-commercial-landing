@@ -13,8 +13,6 @@ import { SeccionApostarOnline } from "@/components/seccionApostarOnline"
 import { SeccionDomicilios } from "@/components/seccionDomicilios"
 import { SeccionBeneficios } from "@/components/seccionBeneficios"
 import { SeccionNoticias } from "@/components/seccionNoticias"
-import { SeccionPromociones } from "@/components/seccionPromociones"
-import { SeccionTestimonios } from "@/components/seccionTestimonios"
 ---
 
 <html lang="es">
@@ -31,7 +29,7 @@ import { SeccionTestimonios } from "@/components/seccionTestimonios"
       <SeccionHero client:load />
       <SeccionEstadisticas client:load />
       <SeccionBeneficios client:load />
-      <SeccionPromociones client:load />
+
       <SeccionJuegos client:load />
       <SeccionProductos client:load />
       
@@ -43,9 +41,9 @@ import { SeccionTestimonios } from "@/components/seccionTestimonios"
         <SeccionDomicilios client:load />
       </div>
       
-      <SeccionSorteos client:load />
       <CarruselSorteosDestacados client:load />
-      <SeccionTestimonios client:load />
+      <SeccionSorteos client:load />
+
       <SeccionNoticias client:load />
       <SeccionContacto client:load />
     </main>

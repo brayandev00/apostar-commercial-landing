@@ -1,124 +1,33 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog"
 import { Ticket, FileText, Smartphone, CreditCard, LayoutGrid, CheckCircle2, Info } from "lucide-react"
 
-const products = [
-  {
-    id: 1,
-    name: "Juegos de Suerte y Azar",
-    description: "Chance, Loterías, Baloto y más. La ilusión de ganar siempre atrae clientes.",
-    icon: Ticket,
-    available: true,
-    category: "Entretenimiento",
-    details: {
-      fullDescription: "Ofrece a tus clientes la emoción de los juegos de azar más populares de Colombia. Como aliado de Apostar, tendrás acceso a una plataforma completa para vender chance, loterías, baloto y más.",
-      benefits: [
-        "Comisiones competitivas por cada venta",
-        "Sistema de venta rápido y confiable",
-        "Soporte técnico 24/7",
-        "Material promocional incluido",
-        "Capacitación completa del sistema"
-      ],
-      requirements: [
-        "Local comercial establecido",
-        "Conexión a internet estable",
-        "Espacio para punto de venta",
-        "Disponibilidad de horario comercial"
-      ],
-      commission: "Hasta 8% de comisión por venta",
-      minInvestment: "Sin inversión inicial"
-    }
-  },
-  {
-    id: 2,
-    name: "Recargas y Paquetes",
-    description: "Mantén a tus vecinos conectados. Recargas a todos los operadores móviles.",
-    icon: Smartphone,
-    available: true,
-    category: "Conectividad",
-    details: {
-      fullDescription: "Servicio de recargas electrónicas para todos los operadores móviles de Colombia: Claro, Movistar, Tigo, Avantel, WOM y más. Ofrece paquetes de datos, minutos y SMS.",
-      benefits: [
-        "Recargas instantáneas en segundos",
-        "Todos los operadores disponibles",
-        "Paquetes de datos y minutos",
-        "Comisión por cada recarga",
-        "Sin necesidad de inventario físico"
-      ],
-      requirements: [
-        "Conexión a internet",
-        "Terminal o computador",
-        "Registro como aliado Apostar",
-        "Capacitación básica (1 hora)"
-      ],
-      commission: "3-5% por recarga",
-      minInvestment: "Sin inversión inicial"
-    }
-  },
-  {
-    id: 3,
-    name: "Pagos de Servicios",
-    description: "Convierte tu local en un punto de pago de facturas. Tráfico garantizado cada mes.",
-    icon: FileText,
-    available: true,
-    category: "Servicios",
-    details: {
-      fullDescription: "Facilita a tus clientes el pago de servicios públicos y privados: energía, agua, gas, telefonía, internet, TV por cable y más. Genera tráfico constante a tu negocio.",
-      benefits: [
-        "Recaudo de múltiples empresas",
-        "Comisión por cada transacción",
-        "Clientes recurrentes cada mes",
-        "Proceso rápido y seguro",
-        "Reportes automáticos de transacciones"
-      ],
-      requirements: [
-        "Local comercial activo",
-        "Internet de banda ancha",
-        "Impresora térmica (opcional)",
-        "Horario comercial establecido"
-      ],
-      commission: "$500 - $2,000 por transacción",
-      minInvestment: "Sin inversión inicial"
-    }
-  },
-  {
-    id: 4,
-    name: "Giros Nacionales",
-    description: "Envío y recepción de dinero. Un servicio esencial para la comunidad.",
-    icon: CreditCard,
-    available: true,
-    category: "Financiero",
-    details: {
-      fullDescription: "Servicio de giros nacionales que permite a tus clientes enviar y recibir dinero de forma segura y rápida a cualquier parte de Colombia. Alianza con las principales redes de giros del país.",
-      benefits: [
-        "Envío y recepción de dinero",
-        "Cobertura nacional completa",
-        "Transacciones seguras y rastreables",
-        "Comisión atractiva por giro",
-        "Clientes de alto valor"
-      ],
-      requirements: [
-        "Registro ante la Superintendencia",
-        "Caja fuerte o lugar seguro",
-        "Capital de trabajo para pagos",
-        "Capacitación en normativa financiera"
-      ],
-      commission: "1-3% del valor del giro",
-      minInvestment: "Capital de trabajo recomendado: $2,000,000"
-    }
-  },
-]
-
 export function SeccionProductos() {
-  const [selectedProduct, setSelectedProduct] = useState<typeof products[0] | null>(null)
+  const [products, setProducts] = useState<any[]>([])
+  const [selectedProduct, setSelectedProduct] = useState<any | null>(null)
   const [isDialogOpen, setIsDialogOpen] = useState(false)
+  const [loading, setLoading] = useState(true)
 
-  const handleViewDetails = (product: typeof products[0]) => {
+  useEffect(() => {
+    fetch(`/api/productos?t=${Date.now()}`)
+      .then(res => res.json())
+      .then(data => {
+        // Map icon string names back to Lucide components if needed, 
+        // but for simplicity we will render the icon dynamically or handle it.
+        // Since we stored icon names as strings in JSON ("Ticket", "Smartphone", etc.),
+        // we need a map to actual components.
+        setProducts(data)
+        setLoading(false)
+      })
+      .catch(err => console.error(err))
+  }, [])
+
+  const handleViewDetails = (product: any) => {
     setSelectedProduct(product)
     setIsDialogOpen(true)
   }

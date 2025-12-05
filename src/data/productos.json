@@ -1,0 +1,125 @@
+[
+  {
+    "id": 1,
+    "name": "Juegos de Suerte y Azar",
+    "description": "Chance, Loterías, Baloto y más. La ilusión de ganar siempre atrae clientes.",
+    "icon": "Ticket",
+    "available": true,
+    "category": "Nose",
+    "details": {
+      "fullDescription": "Ofrece a tus clientes la emoción de los juegos de azar más populares de Colombia. Como aliado de Apostar, tendrás acceso a una plataforma completa para vender chance, loterías, baloto y más.",
+      "benefits": [
+        "Comisiones competitivas por cada venta",
+        "Sistema de venta rápido y confiable",
+        "Soporte técnico 24/7",
+        "Material promocional incluido",
+        "Capacitación completa del sistema"
+      ],
+      "requirements": [
+        "Local comercial establecido",
+        "Conexión a internet estable",
+        "Espacio para punto de venta",
+        "Disponibilidad de horario comercial"
+      ],
+      "commission": "Hasta 8% de comisión por venta",
+      "minInvestment": "Sin inversión inicial"
+    }
+  },
+  {
+    "id": 2,
+    "name": "Recargas y Paquetes",
+    "description": "Mantén a tus vecinos conectados. Recargas a todos los operadores móviles.",
+    "icon": "Smartphone",
+    "available": true,
+    "category": "Conectividad",
+    "details": {
+      "fullDescription": "Servicio de recargas electrónicas para todos los operadores móviles de Colombia: Claro, Movistar, Tigo, Avantel, WOM y más. Ofrece paquetes de datos, minutos y SMS.",
+      "benefits": [
+        "Recargas instantáneas en segundos",
+        "Todos los operadores disponibles",
+        "Paquetes de datos y minutos",
+        "Comisión por cada recarga",
+        "Sin necesidad de inventario físico"
+      ],
+      "requirements": [
+        "Conexión a internet",
+        "Terminal o computador",
+        "Registro como aliado Apostar",
+        "Capacitación básica (1 hora)"
+      ],
+      "commission": "3-5% por recarga",
+      "minInvestment": "Sin inversión inicial"
+    }
+  },
+  {
+    "id": 3,
+    "name": "Pagos de Servicios",
+    "description": "Convierte tu local en un punto de pago de facturas. Tráfico garantizado cada mes.",
+    "icon": "FileText",
+    "available": true,
+    "category": "Servicios",
+    "details": {
+      "fullDescription": "Facilita a tus clientes el pago de servicios públicos y privados: energía, agua, gas, telefonía, internet, TV por cable y más. Genera tráfico constante a tu negocio.",
+      "benefits": [
+        "Recaudo de múltiples empresas",
+        "Comisión por cada transacción",
+        "Clientes recurrentes cada mes",
+        "Proceso rápido y seguro",
+        "Reportes automáticos de transacciones"
+      ],
+      "requirements": [
+        "Local comercial activo",
+        "Internet de banda ancha",
+        "Impresora térmica (opcional)",
+        "Horario comercial establecido"
+      ],
+      "commission": "$500 - $2,000 por transacción",
+      "minInvestment": "Sin inversión inicial"
+    }
+  },
+  {
+    "id": 4,
+    "name": "Giros Nacionales",
+    "description": "Envío y recepción de dinero. Un servicio esencial para la comunidad.",
+    "icon": "CreditCard",
+    "available": true,
+    "category": "Financiero",
+    "details": {
+      "fullDescription": "Servicio de giros nacionales que permite a tus clientes enviar y recibir dinero de forma segura y rápida a cualquier parte de Colombia. Alianza con las principales redes de giros del país.",
+      "benefits": [
+        "Envío y recepción de dinero",
+        "Cobertura nacional completa",
+        "Transacciones seguras y rastreables",
+        "Comisión atractiva por giro",
+        "Clientes de alto valor"
+      ],
+      "requirements": [
+        "Registro ante la Superintendencia",
+        "Caja fuerte o lugar seguro",
+        "Capital de trabajo para pagos",
+        "Capacitación en normativa financiera"
+      ],
+      "commission": "1-3% del valor del giro",
+      "minInvestment": "Capital de trabajo recomendado: $2,000,000"
+    }
+  },
+  {
+    "details": {
+      "benefits": [
+        "45t4t"
+      ],
+      "requirements": [
+        "t45t"
+      ],
+      "fullDescription": "tgt5tg5t",
+      "commission": "5t5t",
+      "minInvestment": "t5t5t"
+    },
+    "available": true,
+    "icon": "CheckCircle2",
+    "name": "hola soy brayan ",
+    "category": "nose",
+    "description": "r4tg54",
+    "id": 1764958138055
+  }
+]

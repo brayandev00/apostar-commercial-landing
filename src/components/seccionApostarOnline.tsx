@@ -93,12 +93,15 @@ export function SeccionApostarOnline() {
                     <div className="flex-1 order-1 lg:order-2 w-full">
                         <div className="relative">
                             {/* Main Image Container */}
-                            <div className="relative rounded-3xl overflow-hidden shadow-2xl border-4 border-white/50 bg-white transform hover:scale-105 transition-transform duration-500">
-                                <div className="aspect-[16/10] bg-white p-4">
+                            {/* Main Image Container */}
+                            <div className="relative rounded-3xl overflow-hidden shadow-2xl border-0 ring-1 ring-white/20 bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-lg transform hover:scale-105 transition-all duration-500 group">
+                                <div className="absolute inset-0 bg-gradient-to-tr from-primary/20 via-transparent to-secondary/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                                <div className="aspect-[16/10] bg-white/5 p-6 backdrop-blur-sm relative z-10 flex items-center justify-center">
+                                    <div className="absolute inset-0 bg-gradient-to-br from-white/10 to-transparent opacity-50" />
                                     <img
                                         src="/images/AposOnline.png"
                                         alt="Plataforma Apostar Online"
-                                        className="w-full h-full object-contain"
+                                        className="w-full h-full object-contain drop-shadow-2xl relative z-20"
                                     />
                                 </div>
                             </div>

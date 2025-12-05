@@ -1,0 +1,16 @@
+---
+import "@/styles/global.css"
+import { AdminDashboard } from "@/components/admin/AdminDashboard"
+---
+
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width" />
+    <title>Administración - Apostar</title>
+  </head>
+  <body class="bg-background min-h-screen">
+    <AdminDashboard client:only="react" />
+  </body>
+</html>

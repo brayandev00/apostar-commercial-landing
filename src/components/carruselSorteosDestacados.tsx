@@ -3,58 +3,20 @@
 import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
-import { Calendar, Clock, Users, ArrowRight, Star } from "lucide-react"
+import { Calendar, Star, ExternalLink } from "lucide-react"
 import useEmblaCarousel from "embla-carousel-react"
 import Autoplay from "embla-carousel-autoplay"
 import { useCallback, useEffect, useState } from "react"
 
-const featuredRaffles = [
-    {
-        id: 1,
-        name: "Mega Sorteo Navideño",
-        prize: "$500,000,000",
-        date: "24 Dic 2025",
-        timeLeft: "Faltan 26 días",
-        participants: "125,000+ participantes",
-        gradient: "from-red-600 via-red-500 to-orange-500",
-    },
-    {
-        id: 2,
-        name: "Baloto Acumulado",
-        prize: "$25,000,000,000",
-        date: "02 Dic 2025",
-        timeLeft: "Faltan 4 días",
-        participants: "500,000+ participantes",
-        gradient: "from-purple-600 via-purple-500 to-pink-500",
-    },
-    {
-        id: 3,
-        name: "Extra de Colombia",
-        prize: "$12,000,000,000",
-        date: "05 Dic 2025",
-        timeLeft: "Faltan 7 días",
-        participants: "200,000+ participantes",
-        gradient: "from-blue-600 via-blue-500 to-cyan-500",
-    },
-    {
-        id: 4,
-        name: "Super Astro Especial",
-        prize: "$100,000,000",
-        date: "15 Dic 2025",
-        timeLeft: "Faltan 17 días",
-        participants: "78,000+ participantes",
-        gradient: "from-green-600 via-green-500 to-emerald-500",
-    },
-    {
-        id: 5,
-        name: "Lotería de Bogotá Premium",
-        prize: "$8,500,000,000",
-        date: "10 Dic 2025",
-        timeLeft: "Faltan 12 días",
-        participants: "150,000+ participantes",
-        gradient: "from-amber-600 via-amber-500 to-yellow-500",
-    },
-]
+interface FeaturedRaffle {
+    id: number
+    titulo: string
+    descripcion: string
+    imagen: string
+    fechaSorteo: string
+    enlace?: string
+    activo: boolean
+}
 
 export function CarruselSorteosDestacados() {
     const [emblaRef, emblaApi] = useEmblaCarousel(
@@ -63,6 +25,22 @@ export function CarruselSorteosDestacados() {
     )
 
     const [selectedIndex, setSelectedIndex] = useState(0)
+    const [raffles, setRaffles] = useState<FeaturedRaffle[]>([])
+    const [loading, setLoading] = useState(true)
+
+    useEffect(() => {
+        fetch(`/api/sorteos-destacados?t=${Date.now()}`)
+            .then(res => res.json())
+            .then(data => {
+                const activeRaffles = data.filter((r: FeaturedRaffle) => r.activo)
+                setRaffles(activeRaffles)
+                setLoading(false)
+            })
+            .catch(err => {
+                console.error("Error loading featured raffles:", err)
+                setLoading(false)
+            })
+    }, [])
 
     const onSelect = useCallback(() => {
         if (!emblaApi) return
@@ -85,6 +63,16 @@ export function CarruselSorteosDestacados() {
         [emblaApi]
     )
 
+    if (loading || raffles.length === 0) return null
+
+    const gradients = [
+        "from-red-600 via-red-500 to-orange-500",
+        "from-purple-600 via-purple-500 to-pink-500",
+        "from-blue-600 via-blue-500 to-cyan-500",
+        "from-green-600 via-green-500 to-emerald-500",
+        "from-amber-600 via-amber-500 to-yellow-500",
+    ]
+
     return (
         <section className="py-20 bg-gradient-to-b from-background to-muted/20">
             <div className="container mx-auto px-4">
@@ -106,10 +94,10 @@ export function CarruselSorteosDestacados() {
                 <div className="relative">
                     <div className="overflow-hidden" ref={emblaRef}>
                         <div className="flex">
-                            {featuredRaffles.map((raffle) => (
+                            {raffles.map((raffle, idx) => (
                                 <div key={raffle.id} className="flex-[0_0_100%] min-w-0 px-4">
                                     <Card className="border-0 shadow-2xl overflow-hidden max-w-4xl mx-auto">
-                                        <CardContent className={`p-0 bg-gradient-to-br ${raffle.gradient} relative`}>
+                                        <CardContent className={`p-0 bg-gradient-to-br ${gradients[idx % gradients.length]} relative`}>
                                             {/* Decorative circles */}
                                             <div className="absolute top-0 right-0 w-64 h-64 bg-white/10 rounded-full -translate-y-1/2 translate-x-1/3" />
                                             <div className="absolute bottom-0 left-0 w-48 h-48 bg-white/10 rounded-full translate-y-1/2 -translate-x-1/4" />
@@ -125,38 +113,32 @@ export function CarruselSorteosDestacados() {
 
                                                 {/* Title */}
                                                 <h3 className="text-3xl md:text-4xl font-bold text-white mb-4">
-                                                    {raffle.name}
+                                                    {raffle.titulo}
                                                 </h3>
 
-                                                {/* Prize */}
-                                                <p className="text-5xl md:text-7xl font-black text-yellow-300 mb-8 tracking-tight">
-                                                    {raffle.prize}
+                                                {/* Description */}
+                                                <p className="text-lg text-white/90 mb-6 line-clamp-2">
+                                                    {raffle.descripcion}
                                                 </p>
 
-                                                {/* Info Grid */}
-                                                <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
-                                                    <div className="flex items-center gap-2 text-white/90">
-                                                        <Calendar className="h-5 w-5" />
-                                                        <span className="font-medium">{raffle.date}</span>
-                                                    </div>
-                                                    <div className="flex items-center gap-2 text-white/90">
-                                                        <Clock className="h-5 w-5" />
-                                                        <span className="font-medium">{raffle.timeLeft}</span>
-                                                    </div>
-                                                    <div className="flex items-center gap-2 text-white/90">
-                                                        <Users className="h-5 w-5" />
-                                                        <span className="font-medium">{raffle.participants}</span>
-                                                    </div>
+                                                {/* Info */}
+                                                <div className="flex items-center gap-2 text-white/90 mb-8">
+                                                    <Calendar className="h-5 w-5" />
+                                                    <span className="font-medium">{raffle.fechaSorteo}</span>
                                                 </div>
 
                                                 {/* CTA Button */}
-                                                <Button
-                                                    size="lg"
-                                                    className="bg-yellow-400 text-yellow-900 hover:bg-yellow-300 font-bold px-8 border-0 shadow-lg hover:shadow-xl transition-all"
-                                                >
-                                                    Ver Material Promocional
-                                                    <ArrowRight className="ml-2 h-5 w-5" />
-                                                </Button>
+                                                {raffle.enlace && (
+                                                    <Button
+                                                        size="lg"
+                                                        className="bg-yellow-400 text-yellow-900 hover:bg-yellow-300 font-bold px-8 border-0 shadow-lg hover:shadow-xl transition-all"
+                                                        asChild
+                                                    >
+                                                        <a href={raffle.enlace} target="_blank" rel="noopener noreferrer">
+                                                            Ver Más <ExternalLink className="ml-2 h-5 w-5" />
+                                                        </a>
+                                                    </Button>
+                                                )}
                                             </div>
                                         </CardContent>
                                     </Card>
@@ -167,7 +149,7 @@ export function CarruselSorteosDestacados() {
 
                     {/* Dots Navigation */}
                     <div className="flex justify-center gap-2 mt-8">
-                        {featuredRaffles.map((_, index) => (
+                        {raffles.map((_, index) => (
                             <button
                                 key={index}
                                 className={`h-2 rounded-full transition-all ${index === selectedIndex

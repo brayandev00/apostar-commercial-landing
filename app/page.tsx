@@ -6,8 +6,6 @@ import { SeccionContacto } from "@/components/seccionContacto"
 import { SeccionApostarOnline } from "@/components/seccionApostarOnline"
 import { SeccionDomicilios } from "@/components/seccionDomicilios"
 import { SeccionBeneficios } from "@/components/seccionBeneficios"
-import { SeccionTestimonios } from "@/components/seccionTestimonios"
-import { SeccionPromociones } from "@/components/seccionPromociones"
 
 export default function Home() {
     return (
@@ -25,8 +23,8 @@ export default function Home() {
                 <SeccionDomicilios />
             </div>
 
-            <SeccionPromociones />
-            <SeccionTestimonios />
+
+
             <SeccionSorteos />
             <SeccionContacto />
         </div>
