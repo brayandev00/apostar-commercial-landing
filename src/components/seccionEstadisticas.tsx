@@ -23,7 +23,7 @@ const stats = [
   },
 ]
 
-export function StatsSection() {
+export function SeccionEstadisticas() {
   return (
     <section className="py-16 bg-card border-b border-border">
       <div className="container mx-auto px-4">

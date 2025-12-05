@@ -1,10 +1,10 @@
 import { Button } from "@/components/ui/button"
 import { Megaphone, Target, DollarSign, Award } from "lucide-react"
 
-export function PromotionsSection() {
+export function SeccionPromociones() {
     return (
         <section className="py-24 bg-primary text-primary-foreground relative overflow-hidden">
-            {/* Background patterned overlay */}
+            {/* Superposición de patrón de fondo */}
             <div className="absolute inset-0 opacity-10" style={{ backgroundImage: "radial-gradient(circle, #ffffff 1px, transparent 1px)", backgroundSize: "30px 30px" }}></div>
 
             <div className="container mx-auto px-4 relative z-10">

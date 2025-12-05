@@ -1,34 +1,34 @@
-import { HeroSection } from "@/components/hero-section"
-import { StatsSection } from "@/components/stats-section"
-import { ProductsSection } from "@/components/products-section"
-import { RafflesSection } from "@/components/raffles-section"
-import { ContactSection } from "@/components/contact-section"
-import { DigitalEcosystemSection } from "@/components/digital-ecosystem-section"
-import { DeliverySection } from "@/components/delivery-section"
-import { BenefitsSection } from "@/components/benefits-section"
-import { TestimonialsSection } from "@/components/testimonials-section"
-import { PromotionsSection } from "@/components/promotions-section"
+import { SeccionHero } from "@/components/seccionHero"
+import { SeccionEstadisticas } from "@/components/seccionEstadisticas"
+import { SeccionProductos } from "@/components/seccionProductos"
+import { SeccionSorteos } from "@/components/seccionSorteos"
+import { SeccionContacto } from "@/components/seccionContacto"
+import { SeccionApostarOnline } from "@/components/seccionApostarOnline"
+import { SeccionDomicilios } from "@/components/seccionDomicilios"
+import { SeccionBeneficios } from "@/components/seccionBeneficios"
+import { SeccionTestimonios } from "@/components/seccionTestimonios"
+import { SeccionPromociones } from "@/components/seccionPromociones"
 
 export default function Home() {
     return (
         <div className="flex flex-col gap-20 pb-20">
-            <HeroSection />
-            <StatsSection />
-            <BenefitsSection />
-            <ProductsSection />
+            <SeccionHero />
+            <SeccionEstadisticas />
+            <SeccionBeneficios />
+            <SeccionProductos />
 
             <div id="online">
-                <DigitalEcosystemSection />
+                <SeccionApostarOnline />
             </div>
 
             <div id="domicilios">
-                <DeliverySection />
+                <SeccionDomicilios />
             </div>
 
-            <PromotionsSection />
-            <TestimonialsSection />
-            <RafflesSection />
-            <ContactSection />
+            <SeccionPromociones />
+            <SeccionTestimonios />
+            <SeccionSorteos />
+            <SeccionContacto />
         </div>
     )
 }

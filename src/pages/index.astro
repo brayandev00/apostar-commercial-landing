@@ -1,15 +1,20 @@
 ---
 import "@/styles/global.css"
-import { Header } from "@/components/header"
-import { Footer } from "@/components/footer"
-import { HeroSection } from "@/components/hero-section"
-import { StatsSection } from "@/components/stats-section"
-import { GamesSection } from "@/components/games-section"
-import { ProductsSection } from "@/components/products-section"
-import { RafflesSection } from "@/components/raffles-section"
-import { FeaturedRafflesCarousel } from "@/components/featured-raffles-carousel"
-import { NewsSection } from "@/components/news-section"
-import { ContactSection } from "@/components/contact-section"
+import { Encabezado } from "@/components/encabezado"
+import { PieDePagina } from "@/components/pieDePagina"
+import { SeccionHero } from "@/components/seccionHero"
+import { SeccionEstadisticas } from "@/components/seccionEstadisticas"
+import { SeccionJuegos } from "@/components/seccionJuegos"
+import { SeccionProductos } from "@/components/seccionProductos"
+import { SeccionSorteos } from "@/components/seccionSorteos"
+import { CarruselSorteosDestacados } from "@/components/carruselSorteosDestacados"
+import { SeccionContacto } from "@/components/seccionContacto"
+import { SeccionApostarOnline } from "@/components/seccionApostarOnline"
+import { SeccionDomicilios } from "@/components/seccionDomicilios"
+import { SeccionBeneficios } from "@/components/seccionBeneficios"
+import { SeccionNoticias } from "@/components/seccionNoticias"
+import { SeccionPromociones } from "@/components/seccionPromociones"
+import { SeccionTestimonios } from "@/components/seccionTestimonios"
 ---
 
 <html lang="es">
@@ -21,17 +26,29 @@ import { ContactSection } from "@/components/contact-section"
     <title>Apostar - Tu suerte al alcance</title>
   </head>
   <body>
-    <Header client:load />
+    <Encabezado client:load />
     <main>
-      <HeroSection client:load />
-      <StatsSection client:load />
-      <GamesSection client:load />
-      <ProductsSection client:load />
-      <RafflesSection client:load />
-      <FeaturedRafflesCarousel client:load />
-      <NewsSection client:load />
-      <ContactSection client:load />
+      <SeccionHero client:load />
+      <SeccionEstadisticas client:load />
+      <SeccionBeneficios client:load />
+      <SeccionPromociones client:load />
+      <SeccionJuegos client:load />
+      <SeccionProductos client:load />
+      
+      <div id="online">
+        <SeccionApostarOnline client:load />
+      </div>
+      
+      <div id="domicilios">
+        <SeccionDomicilios client:load />
+      </div>
+      
+      <SeccionSorteos client:load />
+      <CarruselSorteosDestacados client:load />
+      <SeccionTestimonios client:load />
+      <SeccionNoticias client:load />
+      <SeccionContacto client:load />
     </main>
-    <Footer client:load />
+    <PieDePagina client:load />
   </body>
 </html>

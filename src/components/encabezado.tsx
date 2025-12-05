@@ -4,7 +4,7 @@ import { useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Menu, X, Sparkles } from "lucide-react"
 
-export function Header() {
+export function Encabezado() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
 
   const navItems = [
@@ -43,14 +43,16 @@ export function Header() {
 
         {/* Desktop Actions */}
         <div className="hidden lg:flex items-center gap-4">
-          <Button
-            size="lg"
-            className="bg-white text-[#C41E3A] font-bold shadow-lg hover:shadow-xl hover:bg-[#FFD700] hover:text-[#C41E3A] hover:scale-105 transition-all duration-300 rounded-full px-8 group relative overflow-hidden"
-          >
-            <span className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/30 to-white/0 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700" />
-            <Sparkles className="h-4 w-4 mr-2" />
-            <span className="relative z-10">Quiero ser Aliado</span>
-          </Button>
+          <a href="#contacto">
+            <Button
+              size="lg"
+              className="bg-white text-[#C41E3A] font-bold shadow-lg hover:shadow-xl hover:bg-[#FFD700] hover:text-[#C41E3A] hover:scale-105 transition-all duration-300 rounded-full px-8 group relative overflow-hidden"
+            >
+              <span className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/30 to-white/0 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700" />
+              <Sparkles className="h-4 w-4 mr-2" />
+              <span className="relative z-10">Quiero ser Aliado</span>
+            </Button>
+          </a>
         </div>
 
         {/* Mobile Menu Button */}
@@ -78,13 +80,15 @@ export function Header() {
                 {item.label}
               </a>
             ))}
-            <Button
-              className="mt-4 bg-white text-[#C41E3A] hover:bg-[#FFD700] font-bold shadow-lg rounded-full"
-              size="lg"
-            >
-              <Sparkles className="h-4 w-4 mr-2" />
-              Quiero ser Aliado
-            </Button>
+            <a href="#contacto" className="mt-4 block" onClick={() => setIsMenuOpen(false)}>
+              <Button
+                className="w-full bg-white text-[#C41E3A] hover:bg-[#FFD700] font-bold shadow-lg rounded-full"
+                size="lg"
+              >
+                <Sparkles className="h-4 w-4 mr-2" />
+                Quiero ser Aliado
+              </Button>
+            </a>
           </nav>
         </div>
       )}

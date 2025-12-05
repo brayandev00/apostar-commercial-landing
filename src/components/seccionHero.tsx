@@ -2,10 +2,10 @@ import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { ArrowRight, Sparkles } from "lucide-react"
 
-export function HeroSection() {
+export function SeccionHero() {
   return (
     <section className="relative overflow-hidden bg-primary py-20 lg:py-32">
-      {/* Background Pattern */}
+      {/* Patrón de Fondo */}
       <div className="absolute inset-0 opacity-10">
         <div className="absolute top-10 left-10 w-72 h-72 bg-secondary rounded-full blur-3xl" />
         <div className="absolute bottom-10 right-10 w-96 h-96 bg-secondary rounded-full blur-3xl" />

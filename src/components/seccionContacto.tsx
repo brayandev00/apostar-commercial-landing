@@ -5,7 +5,7 @@ import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import { Phone, Mail, MapPin, MessageCircle, Send } from "lucide-react"
 
-export function ContactSection() {
+export function SeccionContacto() {
   return (
     <section id="contacto" className="py-20 bg-background">
       <div className="container mx-auto px-4">

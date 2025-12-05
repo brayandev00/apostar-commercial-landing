@@ -1,11 +1,11 @@
 import { Facebook, Instagram, Twitter, Youtube } from "lucide-react"
 
-export function Footer() {
+export function PieDePagina() {
   return (
     <footer className="bg-primary text-primary-foreground py-12">
       <div className="container mx-auto px-4">
         <div className="grid md:grid-cols-4 gap-8 mb-8">
-          {/* Brand */}
+          {/* Columna de Marca */}
           <div className="md:col-span-1">
             <img src="/images/LogoApos.png" alt="Apostar" className="h-auto w-32 mb-4" />
             <p className="text-primary-foreground/80 text-sm leading-relaxed">
@@ -13,7 +13,7 @@ export function Footer() {
             </p>
           </div>
 
-          {/* Contact Info from Image */}
+          {/* Información de Contacto */}
           <div>
             <h4 className="font-bold mb-4 text-secondary">Sede Principal</h4>
             <div className="space-y-4 text-sm text-primary-foreground/80">

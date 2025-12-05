@@ -56,7 +56,7 @@ const featuredRaffles = [
     },
 ]
 
-export function FeaturedRafflesCarousel() {
+export function CarruselSorteosDestacados() {
     const [emblaRef, emblaApi] = useEmblaCarousel(
         { align: "center", loop: true },
         [Autoplay({ delay: 4000, stopOnInteraction: false })]
@@ -171,8 +171,8 @@ export function FeaturedRafflesCarousel() {
                             <button
                                 key={index}
                                 className={`h-2 rounded-full transition-all ${index === selectedIndex
-                                        ? "w-8 bg-primary"
-                                        : "w-2 bg-muted-foreground/30 hover:bg-muted-foreground/50"
+                                    ? "w-8 bg-primary"
+                                    : "w-2 bg-muted-foreground/30 hover:bg-muted-foreground/50"
                                     }`}
                                 onClick={() => scrollTo(index)}
                                 aria-label={`Ir al sorteo ${index + 1}`}

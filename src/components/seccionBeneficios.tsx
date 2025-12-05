@@ -1,6 +1,6 @@
 import { TrendingUp, ShieldCheck, Smile } from "lucide-react"
 
-export function BenefitsSection() {
+export function SeccionBeneficios() {
     const benefits = [
         {
             icon: TrendingUp,

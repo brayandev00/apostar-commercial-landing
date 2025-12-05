@@ -60,7 +60,7 @@ const raffles = [
   },
 ]
 
-export function RafflesSection() {
+export function SeccionSorteos() {
   const [emblaRef, emblaApi] = useEmblaCarousel({ align: "start", loop: true })
 
   const scrollPrev = useCallback(() => {
