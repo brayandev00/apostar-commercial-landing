@@ -1,7 +1,8 @@
 import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
-import { Phone, MapPin, MessageCircle, Facebook, Instagram, Twitter, Mail } from "lucide-react"
+import { Phone, MapPin, MessageCircle, Facebook, Instagram, Mail } from "lucide-react"
+import { X } from "lucide-react"
 
 export function SeccionContacto() {
   const whatsappNumber = "573001234567" // Número sin espacios ni caracteres especiales
@@ -121,9 +122,9 @@ export function SeccionContacto() {
                   rel="noopener noreferrer"
                   className="flex items-center gap-3 p-4 bg-[#1DA1F2]/10 rounded-lg hover:bg-[#1DA1F2]/20 transition-colors group"
                 >
-                  <Twitter className="h-8 w-8 text-[#1DA1F2] group-hover:scale-110 transition-transform" />
+                  <X className="h-8 w-8 text-black group-hover:scale-110 transition-transform" />
                   <div>
-                    <p className="font-semibold text-foreground">Twitter</p>
+                    <p className="font-semibold text-foreground">X</p>
                     <p className="text-xs text-muted-foreground">@apostar</p>
                   </div>
                 </a>

@@ -1,4 +1,5 @@
-import { Facebook, Instagram, Twitter, Youtube } from "lucide-react"
+import { Facebook, Instagram, Youtube } from "lucide-react"
+import { X } from "lucide-react"
 
 export function PieDePagina() {
   return (
@@ -73,7 +74,7 @@ export function PieDePagina() {
                 href="#"
                 className="w-10 h-10 rounded-full bg-primary-foreground/10 flex items-center justify-center hover:bg-secondary hover:text-secondary-foreground transition-colors"
               >
-                <Twitter className="h-5 w-5" />
+                <X className="h-5 w-5" />
               </a>
               <a
                 href="#"

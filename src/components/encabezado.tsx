@@ -8,8 +8,7 @@ export function Encabezado() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
 
   const navItems = [
-    { href: "#novedades", label: "Novedades" },
-    { href: "#online", label: "Apostar Online" },
+    { href: "#noticias", label: "Novedades" },
     { href: "#domicilios", label: "Domicilios" },
     { href: "#productos", label: "Productos" },
     { href: "#contacto", label: "Contacto" },

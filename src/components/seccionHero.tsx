@@ -31,17 +31,12 @@ export function SeccionHero() {
             </p>
 
             <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
-              <Button size="lg" className="bg-secondary text-secondary-foreground hover:bg-secondary/90 font-semibold">
-                Quiero ser Aliado
-                <ArrowRight className="h-5 w-5 ml-2" />
-              </Button>
-              <Button
-                size="lg"
-                variant="outline"
-                className="border-primary-foreground text-primary-foreground hover:bg-primary-foreground/10 bg-transparent"
-              >
-                Ver Tabla de Comisiones
-              </Button>
+              <a href="#contacto">
+                <Button size="lg" className="bg-secondary text-secondary-foreground hover:bg-secondary/90 font-semibold">
+                  Quiero ser Aliado
+                  <ArrowRight className="h-5 w-5 ml-2" />
+                </Button>
+              </a>
             </div>
           </div>
 

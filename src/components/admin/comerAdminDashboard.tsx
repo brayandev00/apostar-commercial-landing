@@ -87,7 +87,8 @@ export function ComerAdminDashboard() {
                     <TabsTrigger value="sorteos" className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground border">Gestión de Contenido</TabsTrigger>
                     <TabsTrigger value="destacados" className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground border">Sorteos Destacados</TabsTrigger>
                     <TabsTrigger value="noticias" className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground border">Noticias</TabsTrigger>
-                    <TabsTrigger value="productos" className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground border">Soluciones Vecinos</TabsTrigger>
+                    <TabsTrigger value="productos" className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground border">Portafolio Integral
+                    </TabsTrigger>
                     <TabsTrigger value="juegos" className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground border">Portafolio Juegos</TabsTrigger>
                     <TabsTrigger value="estadisticas" className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground border">Estadísticas</TabsTrigger>
                     <TabsTrigger value="configuracion" className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground border">
