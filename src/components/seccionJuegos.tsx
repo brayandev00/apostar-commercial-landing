@@ -1,13 +1,18 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog"
-import { Dices, Ticket, CircleDot, Star, Zap, Gift, Info, TrendingUp, Clock, DollarSign } from "lucide-react"
+import { Dices, Ticket, CircleDot, Star, Zap, Gift, Info, TrendingUp, Clock, DollarSign, LayoutGrid, Smartphone, FileText, CreditCard, Shield, CheckCircle2 } from "lucide-react"
 
-const games = [
+const ICON_MAP: Record<string, any> = {
+  Dices, Ticket, CircleDot, Star, Zap, Gift, Info, TrendingUp, Clock, DollarSign,
+  LayoutGrid, Smartphone, FileText, CreditCard, Shield, CheckCircle2
+}
+
+const DEFAULT_GAMES = [
   {
     id: 1,
     name: "Baloto",
@@ -173,13 +178,62 @@ const games = [
   },
 ]
 
-export function SeccionJuegos() {
-  const [selectedGame, setSelectedGame] = useState<typeof games[0] | null>(null)
-  const [isDialogOpen, setIsDialogOpen] = useState(false)
+interface SeccionJuegosProps {
+  games?: any[]
+  titleText?: string
+  badgeText?: string
+  descriptionText?: string
+  badgeIconName?: string
+}
 
-  const handleViewDetails = (game: typeof games[0]) => {
+export function SeccionJuegos({
+  games: initialGames,
+  titleText = "Portafolio de Productos",
+  badgeText = "Catálogo de Juegos",
+  descriptionText = "Maximiza tus ganancias con nuestro amplio catálogo de juegos. Ofrece variedad a tus clientes y asegura ingresos constantes con nuestras competitivas comisiones.",
+  badgeIconName
+}: SeccionJuegosProps) {
+  /* const [selectedGame, setSelectedGame] = useState<any | null>(null) */
+  const [games, setGames] = useState<any[]>(initialGames || DEFAULT_GAMES)
+  const [selectedGame, setSelectedGame] = useState<any | null>(null)
+  const [isDialogOpen, setIsDialogOpen] = useState(false)
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    if (initialGames) {
+      setGames(initialGames)
+      setLoading(false)
+      return
+    }
+
+    fetch(`/api/juegos?t=${Date.now()}`)
+      .then(res => res.json())
+      .then(data => {
+        if (Array.isArray(data) && data.length > 0) {
+          setGames(data)
+        } else if (!Array.isArray(data)) {
+          console.error("API returned non-array data for games:", data)
+          setGames(DEFAULT_GAMES)
+        }
+        setLoading(false)
+      })
+      .catch(err => {
+        console.error(err)
+        setLoading(false)
+      })
+  }, [initialGames])
+
+  const handleViewDetails = (game: any) => {
     setSelectedGame(game)
     setIsDialogOpen(true)
+  }
+
+  // Helper to get icon component
+  const getIconComponent = (iconName: string | any) => {
+    if (typeof iconName === 'string') {
+      return ICON_MAP[iconName] || Star
+    }
+    return iconName || Star
   }
 
   return (
@@ -188,57 +242,65 @@ export function SeccionJuegos() {
         {/* Header */}
         <div className="text-center mb-12">
           <Badge variant="secondary" className="mb-4 bg-yellow-500 text-white">
-            Catálogo de Juegos
+            {badgeText}
           </Badge>
           <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4 text-balance">
-            Portafolio de Productos
+            {titleText}
           </h2>
           <p className="text-muted-foreground max-w-2xl mx-auto">
-            Maximiza tus ganancias con nuestro amplio catálogo de juegos. Ofrece variedad a tus clientes y asegura ingresos constantes con nuestras competitivas comisiones.
+            {descriptionText}
           </p>
         </div>
 
         {/* Games Grid */}
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {games.map((game) => (
-            <Card
-              key={game.id}
-              className="group hover:shadow-xl transition-all duration-300 border-border hover:border-primary/50 overflow-hidden"
-            >
-              <CardContent className="p-6">
-                <div className={`flex items-center justify-center w-14 h-14 rounded-xl ${game.color} text-white mb-4 group-hover:scale-110 transition-transform`}>
-                  <game.icon className="h-7 w-7" />
-                </div>
+          {games.map((game) => {
+            const GameIcon = getIconComponent(game.icon)
 
-                <div className="flex items-center justify-between mb-3">
-                  <h3 className="text-xl font-bold text-foreground">{game.name}</h3>
-                  <Badge variant="outline" className="text-xs border-primary text-primary">
-                    Comisión: {game.commission}
-                  </Badge>
-                </div>
+            return (
+              <Card
+                key={game.id}
+                className="group hover:shadow-xl transition-all duration-300 border-border hover:border-primary/50 overflow-hidden"
+              >
+                <CardContent className="p-6">
+                  <div className={`flex items-center justify-center w-14 h-14 rounded-xl ${game.color} text-white mb-4 group-hover:scale-110 transition-transform overflow-hidden`}>
+                    {game.image ? (
+                      <img src={game.image} alt={game.name} className="w-full h-full object-cover" />
+                    ) : (
+                      <GameIcon className="h-7 w-7" />
+                    )}
+                  </div>
 
-                <p className="text-muted-foreground text-sm mb-4 leading-relaxed min-h-[3rem]">
-                  {game.description}
-                </p>
+                  <div className="flex items-center justify-between mb-3">
+                    <h3 className="text-xl font-bold text-foreground">{game.name}</h3>
+                    <Badge variant="outline" className="text-xs border-primary text-primary">
+                      Comisión: {game.commission}
+                    </Badge>
+                  </div>
 
-                <div className="flex items-center justify-between mb-4 text-xs">
-                  <span className="flex items-center gap-1 text-muted-foreground">
-                    <TrendingUp className="h-3 w-3" />
-                    Popularidad: <span className="font-semibold text-foreground">{game.popularity}</span>
-                  </span>
-                </div>
+                  <p className="text-muted-foreground text-sm mb-4 leading-relaxed min-h-[3rem]">
+                    {game.description}
+                  </p>
 
-                <Button
-                  variant="outline"
-                  className="w-full border-primary text-primary hover:bg-primary hover:text-primary-foreground"
-                  onClick={() => handleViewDetails(game)}
-                >
-                  <Info className="h-4 w-4 mr-2" />
-                  Ver detalles
-                </Button>
-              </CardContent>
-            </Card>
-          ))}
+                  <div className="flex items-center justify-between mb-4 text-xs">
+                    <span className="flex items-center gap-1 text-muted-foreground">
+                      <TrendingUp className="h-3 w-3" />
+                      Popularidad: <span className="font-semibold text-foreground">{game.popularity}</span>
+                    </span>
+                  </div>
+
+                  <Button
+                    variant="outline"
+                    className="w-full border-primary text-primary hover:bg-primary hover:text-primary-foreground"
+                    onClick={() => handleViewDetails(game)}
+                  >
+                    <Info className="h-4 w-4 mr-2" />
+                    Ver detalles
+                  </Button>
+                </CardContent>
+              </Card>
+            )
+          })}
         </div>
       </div>
 
@@ -249,8 +311,15 @@ export function SeccionJuegos() {
             <>
               <DialogHeader>
                 <div className="flex items-center gap-4 mb-2">
-                  <div className={`flex items-center justify-center w-14 h-14 rounded-xl ${selectedGame.color} text-white`}>
-                    <selectedGame.icon className="h-7 w-7" />
+                  <div className={`flex items-center justify-center w-14 h-14 rounded-xl ${selectedGame.color} text-white overflow-hidden`}>
+                    {selectedGame.image ? (
+                      <img src={selectedGame.image} alt={selectedGame.name} className="w-full h-full object-cover" />
+                    ) : (
+                      (() => {
+                        const SelectedIcon = getIconComponent(selectedGame.icon)
+                        return <SelectedIcon className="h-7 w-7" />
+                      })()
+                    )}
                   </div>
                   <div className="flex-1">
                     <DialogTitle className="text-3xl">{selectedGame.name}</DialogTitle>

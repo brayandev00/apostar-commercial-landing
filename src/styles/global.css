@@ -77,3 +77,19 @@
     @apply bg-background text-foreground;
   }
 }
+
+@layer utilities {
+  @keyframes toast-progress {
+    from {
+      width: 100%;
+    }
+
+    to {
+      width: 0%;
+    }
+  }
+
+  .animate-toast-progress {
+    animation: toast-progress linear forwards;
+  }
+}

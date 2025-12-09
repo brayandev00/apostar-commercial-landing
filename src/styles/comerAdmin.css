@@ -1,0 +1,208 @@
+/* Definición de variables CSS para los colores */
+:root {
+    /* Colores generales de la interfaz */
+    --body-color: #E4E9F7;
+    /* Color de fondo del cuerpo de la página */
+    --sidebar-color: #FFF;
+    /* Color del fondo de la barra lateral */
+    --primary-color: #CE1230;
+    /* Color principal para elementos destacados */
+    --primary-color-light: #F6F5FF;
+    /* Color claro del color principal (Corrected typo form F6FSFF to F6F5FF) */
+    --toggle-color: #DDD;
+    /* Color para los elementos interactivos (como toggles) */
+    --text-color: #646464;
+    /* Color de texto general */
+    --mostasa: #fb8500;
+    /* Un color adicional que podría usarse para resaltar elementos */
+}
+
+/* Estilos para el contenedor del perfil y su popover */
+.popover_profile {
+    position: relative;
+    /* Para posicionar los elementos internos de forma relativa */
+    width: 100%;
+    /* El contenedor ocupa todo el ancho disponible */
+    justify-content: flex-end;
+    /* Alineación de los elementos a la derecha */
+    display: flex;
+    /* Usado para hacer que los elementos internos se alineen en una fila */
+    height: 51px;
+    /* Altura fija para el contenedor */
+    background: #dddddd;
+    /* Fondo de color gris claro */
+}
+
+/* Estilos para el contenedor del perfil (botón de perfil) */
+.profile {
+    background-color: var(--primary-color);
+    /* Color de fondo del perfil */
+    border-radius: 4px;
+    /* Bordes redondeados */
+    position: relative;
+    /* Posicionamiento relativo para los elementos hijos */
+    top: 6px;
+    /* Desplazamiento hacia abajo */
+    height: 35px;
+    /* Altura fija para el perfil */
+    right: 8px;
+    /* Desplazamiento hacia la derecha */
+    box-shadow: 0px 4px 8px var(--text-color);
+    /* Sombra para dar profundidad */
+}
+
+/* Estilos para el texto dentro del perfil (nombre o título) */
+.profile .text {
+    font-size: 20px;
+    /* Tamaño de fuente */
+    font-weight: 500;
+    /* Grosor de la fuente */
+    color: #FFF;
+    /* Color blanco para el texto */
+    padding: 8px 40px;
+    /* Espaciado interno alrededor del texto */
+    height: 10%;
+    /* Altura pequeña para el área del texto */
+    border-radius: 1px;
+    /* Bordes ligeramente redondeados */
+    cursor: pointer;
+    /* El puntero del ratón cambia a mano al pasar sobre el texto */
+}
+
+/* Contenedor para el contenido del popover, inicialmente oculto */
+.popover_content {
+    position: absolute;
+    /* Posicionamiento absoluto dentro de su contenedor padre */
+    top: 40px;
+    /* Se posiciona 40px debajo del perfil */
+    right: -16px;
+    /* Se desplaza ligeramente hacia la derecha */
+    width: 218px;
+    /* Ancho fijo del contenido del popover */
+    background: white;
+    /* Fondo blanco para el popover */
+    z-index: 999;
+    /* Asegura que el popover se muestre encima de otros elementos */
+    border-radius: 24px;
+    /* Bordes redondeados */
+    box-shadow: 0px 4px 8px 1px var(--text-color);
+    /* Sombra para dar profundidad */
+    visibility: hidden;
+    /* El contenido está oculto por defecto */
+}
+
+/* Cuando el perfil se pasa por encima, el popover se vuelve visible */
+.profile:hover .popover_content {
+    visibility: visible;
+    /* El popover se hace visible al pasar el mouse sobre el perfil */
+}
+
+/* Estilos para los submenús dentro del popover */
+.submenu-profile {
+    display: flex;
+    /* Los elementos dentro del submenú se alinean en fila */
+    text-decoration: none;
+    /* Sin subrayado en los enlaces */
+    color: #525252;
+    /* Color gris para el texto */
+    margin: 20px 14px;
+    /* Márgenes alrededor de los submenús */
+}
+
+/* Estilos para los elementos de información de usuario dentro del submenu */
+.user-info {
+    display: flex;
+    /* Alinea los elementos de forma horizontal */
+    align-items: center;
+    /* Centra los elementos verticalmente */
+    margin: 7px;
+    /* Márgenes alrededor de los elementos */
+    padding: 6px;
+    /* Espaciado interno de los elementos */
+}
+
+/* Estilo para los encabezados dentro de la sección de información de usuario */
+.user-info h3 {
+    font-weight: 500;
+    /* Peso de la fuente */
+}
+
+/* Línea horizontal separadora */
+.profile hr {
+    border: 0;
+    /* Sin borde */
+    height: 1px;
+    /* Alto de la línea */
+    width: 100%;
+    /* Ocupa todo el ancho disponible */
+    background: #ccc;
+    /* Color gris claro para la línea */
+    margin: 15px 0 10px;
+    /* Márgenes alrededor de la línea */
+}
+
+/* Estilos para los párrafos dentro de los submenús */
+.submenu-profile p {
+    position: relative;
+    /* Posicionamiento relativo para ajustar la ubicación */
+    left: 18px;
+    /* Desplazamiento hacia la izquierda */
+    width: 100%;
+    /* El párrafo ocupa todo el ancho disponible */
+}
+
+/* Estilos para el icono dentro del submenu */
+.submenu-profile span {
+    position: relative;
+    /* Posicionamiento relativo */
+    right: 5px;
+    /* Desplazamiento hacia la derecha */
+    transition: transform (var(--tran-05));
+    /* Transición suave cuando el icono cambia de estado */
+}
+
+/* Efecto cuando el submenu se pasa por encima: el icono se mueve */
+.submenu-profile:hover span {
+    transform: translateX(5px);
+    /* Desplazamiento hacia la derecha al pasar el ratón */
+}
+
+/* Efecto al pasar el ratón sobre el submenú: el texto se pone en negrita */
+.submenu-profile:hover p {
+    font-weight: 600;
+    /* El texto se pone más grueso */
+}
+
+/* Estilo del icono dentro de los submenús */
+.submenu-profile .icon {
+    align-items: center;
+    /* Centrado del contenido dentro del icono */
+    background: var(--toggle-color);
+    /* Fondo del icono con el color del toggle */
+    width: 38px;
+    /* Ancho fijo para el icono */
+    height: 23px;
+    /* Alto fijo para el icono */
+    border-radius: 50%;
+    /* Forma circular para el icono */
+    display: flex;
+    /* Alinea el contenido de forma flexible */
+    justify-content: center;
+    /* Centra el contenido dentro del icono */
+    position: relative;
+    /* Posicionamiento relativo para ajustar su ubicación */
+    left: 4px;
+    /* Desplazamiento hacia la izquierda */
+}
+
+/* Estilo para los elementos del menú desplegable al pasar por encima */
+.dropdown-menu .item-hover:hover {
+    background-color: var(--toggle-color);
+    /* Cambia el fondo a color toggle cuando el mouse pasa por encima */
+}
+
+/* Estilo para el botón desplegable */
+.btn.dropdown-toggle {
+    background-color: var(--primary-color);
+    /* Color de fondo del botón con el color principal */
+}

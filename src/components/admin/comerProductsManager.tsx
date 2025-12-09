@@ -7,7 +7,7 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
 import { useToast } from "@/hooks/use-toast"
-import { Loader2, Plus, Trash2, Save, Ticket, Smartphone, FileText, CreditCard, CheckCircle2 } from "lucide-react"
+import { Loader2, Plus, Trash2, Save, Ticket, Smartphone, FileText, CreditCard, CheckCircle2, Upload } from "lucide-react"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Badge } from "@/components/ui/badge"
 
@@ -16,6 +16,7 @@ interface Product {
     name: string
     description: string
     icon: string
+    image?: string
     available: boolean
     category: string
     details: {
@@ -27,11 +28,14 @@ interface Product {
     }
 }
 
-export function ProductsManager() {
+import "@/styles/comerAdmin.css"
+
+export function ComerProductsManager() {
     const { toast } = useToast()
     const [products, setProducts] = useState<Product[]>([])
     const [loading, setLoading] = useState(true)
-    const [saving, setSaving] = useState(false)
+
+    const [processing, setProcessing] = useState(false)
     const [selectedProduct, setSelectedProduct] = useState<Product | null>(null)
 
     useEffect(() => {
@@ -43,9 +47,14 @@ export function ProductsManager() {
             const res = await fetch(`/api/productos?t=${Date.now()}`)
             if (!res.ok) throw new Error("Error fetching products")
             const data = await res.json()
-            setProducts(data)
-            if (data.length > 0 && !selectedProduct) {
-                setSelectedProduct(data[0])
+            if (Array.isArray(data)) {
+                setProducts(data)
+                if (data.length > 0 && !selectedProduct) {
+                    setSelectedProduct(data[0])
+                }
+            } else {
+                setProducts([])
+                throw new Error("Invalid data format received")
             }
         } catch (error) {
             console.error("Error:", error)
@@ -60,7 +69,7 @@ export function ProductsManager() {
     }
 
     const handleSave = async () => {
-        setSaving(true)
+        setProcessing(true) // Start blocking loading
         try {
             const res = await fetch("/api/productos", {
                 method: "POST",
@@ -71,18 +80,20 @@ export function ProductsManager() {
             if (!res.ok) throw new Error("Error saving products")
 
             toast({
-                title: "Éxito",
-                description: "Productos actualizados correctamente",
+                title: "¡Guardado Exitoso!",
+                description: "Los cambios se han reflejado en la página.",
+                duration: 3000,
+                variant: "success"
             })
         } catch (error) {
             console.error("Error:", error)
             toast({
-                title: "Error",
-                description: "No se pudieron guardar los cambios",
+                title: "Error al guardar",
+                description: "No se pudieron guardar los cambios. Intente nuevamente.",
                 variant: "destructive",
             })
         } finally {
-            setSaving(false)
+            setTimeout(() => setProcessing(false), 500) // Small artificial delay for UX feel
         }
     }
 
@@ -174,7 +185,19 @@ export function ProductsManager() {
         toast({
             title: "Producto Agregado",
             description: "Se ha creado un nuevo producto. Edítalo y guarda los cambios.",
+            variant: "success",
         })
+    }
+
+    const handleImageUpload = (id: number | string, e: React.ChangeEvent<HTMLInputElement>) => {
+        const file = e.target.files?.[0]
+        if (!file) return
+
+        const reader = new FileReader()
+        reader.onloadend = () => {
+            updateProduct(id, 'image', reader.result as string)
+        }
+        reader.readAsDataURL(file)
     }
 
     const handleDeleteProduct = (id: number | string) => {
@@ -183,6 +206,7 @@ export function ProductsManager() {
         toast({
             title: "Producto Eliminado",
             description: "No olvides guardar los cambios para hacerlo permanente.",
+            variant: "success",
         })
     }
 
@@ -196,16 +220,26 @@ export function ProductsManager() {
                     <p className="text-sm text-muted-foreground">Gestiona los productos visibles en la web.</p>
                 </div>
                 <div className="flex gap-2">
-                    <Button variant="outline" onClick={handleAddProduct}>
+                    <Button variant="outline" onClick={handleAddProduct} disabled={processing}>
                         <Plus className="mr-2 h-4 w-4" />
                         Agregar Nuevo
                     </Button>
-                    <Button onClick={handleSave} disabled={saving}>
-                        {saving ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <Save className="mr-2 h-4 w-4" />}
-                        Guardar Cambios
+                    <Button onClick={handleSave} disabled={processing} className={processing ? "opacity-80" : ""}>
+                        {processing ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <Save className="mr-2 h-4 w-4" />}
+                        {processing ? "Guardando..." : "Guardar Cambios"}
                     </Button>
                 </div>
             </div>
+
+            {/* Blocking Overlay */}
+            {processing && (
+                <div className="fixed inset-0 bg-background/80 backdrop-blur-sm z-50 flex items-center justify-center">
+                    <div className="flex flex-col items-center gap-4">
+                        <Loader2 className="h-12 w-12 animate-spin text-primary" />
+                        <p className="text-lg font-medium animate-pulse">Guardando cambios...</p>
+                    </div>
+                </div>
+            )}
 
             <Tabs defaultValue={products[0]?.id.toString()} className="w-full">
                 <TabsList className="flex flex-wrap h-auto gap-2 bg-transparent justify-start mb-4">
@@ -252,11 +286,54 @@ export function ProductsManager() {
                                         />
                                     </div>
                                     <div className="space-y-2">
-                                        <Label>Icono Lucide (Nombre)</Label>
+                                        <Label>Icono Lucide (Opcional si hay imagen)</Label>
                                         <Input
                                             value={product.icon}
                                             onChange={(e) => updateProduct(product.id, 'icon', e.target.value)}
                                         />
+                                    </div>
+                                    <div className="space-y-4">
+                                        <Label>Imagen Personalizada</Label>
+                                        <div className="border-2 border-dashed border-gray-300 rounded-lg p-6 flex flex-col items-center justify-center gap-4 hover:border-primary/50 transition-colors bg-muted/10 relative group/dropzone">
+                                            <Input
+                                                type="file"
+                                                accept="image/*"
+                                                onChange={(e) => handleImageUpload(product.id, e)}
+                                                className="absolute inset-0 opacity-0 cursor-pointer w-full h-full z-10"
+                                                id={`img-${product.id}`}
+                                            />
+
+                                            {product.image ? (
+                                                <div className="relative w-full aspect-video max-w-[200px] overflow-hidden rounded-lg shadow-sm">
+                                                    <img src={product.image} className="w-full h-full object-cover" />
+                                                    <div className="absolute inset-0 bg-black/40 opacity-0 group-hover/dropzone:opacity-100 transition-opacity flex items-center justify-center z-20 pointer-events-none">
+                                                        <span className="text-white text-xs font-medium">Click para cambiar</span>
+                                                    </div>
+                                                    <Button
+                                                        size="icon"
+                                                        variant="destructive"
+                                                        className="absolute top-1 right-1 h-6 w-6 z-30"
+                                                        onClick={(e) => {
+                                                            e.preventDefault()
+                                                            e.stopPropagation()
+                                                            updateProduct(product.id, 'image', undefined)
+                                                        }}
+                                                    >
+                                                        <Trash2 className="h-3 w-3" />
+                                                    </Button>
+                                                </div>
+                                            ) : (
+                                                <div className="flex flex-col items-center gap-2 text-muted-foreground">
+                                                    <div className="bg-muted p-3 rounded-full">
+                                                        <Upload className="h-6 w-6" />
+                                                    </div>
+                                                    <div className="text-center">
+                                                        <span className="font-semibold text-primary">Haz click para subir</span>
+                                                        <p className="text-xs">o arrastra y suelta una imagen</p>
+                                                    </div>
+                                                </div>
+                                            )}
+                                        </div>
                                     </div>
                                     <div className="space-y-2">
                                         <Label>Comisión</Label>

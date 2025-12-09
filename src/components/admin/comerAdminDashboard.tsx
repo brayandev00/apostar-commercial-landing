@@ -14,8 +14,10 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Badge } from "@/components/ui/badge"
 import { Loader2, Plus, Pencil, Trash2, Save, Upload, Image as ImageIcon, FileText } from "lucide-react"
 
-import { ProductsManager } from "@/components/admin/ProductsManager"
-import { StatisticsManager } from "@/components/admin/StatisticsManager"
+import { ComerProductsManager } from "@/components/admin/comerProductsManager"
+import { ComerJuegosManager } from "@/components/admin/comerJuegosManager"
+import { ComerStatisticsManager } from "@/components/admin/comerStatisticsManager"
+import { ComerSettingsManager } from "@/components/admin/comerSettingsManager"
 import { Toaster } from "@/components/ui/toaster"
 
 // Types
@@ -55,14 +57,29 @@ interface News {
     publicada: boolean
 }
 
-export function AdminDashboard() {
+import { ComerLogin } from "@/components/admin/comerLogin"
+import { Lock, LogOut, Settings } from "lucide-react"
+
+export function ComerAdminDashboard() {
+    const [isAuthenticated, setIsAuthenticated] = useState(false)
+
+    console.log("Rendering ComerAdminDashboard, auth:", isAuthenticated);
+
+    if (!isAuthenticated) {
+        return <ComerLogin onLogin={() => setIsAuthenticated(true)} />
+    }
+
     return (
         <div className="container mx-auto py-10">
             <div className="flex justify-between items-center mb-8">
                 <div>
                     <h1 className="text-3xl font-bold tracking-tight">Panel de Administración</h1>
-                    <p className="text-muted-foreground">Gestiona el contenido de tu landing page desde aquí.</p>
+                    <p className="text-muted-foreground">Gestiona el contenido de la landing page desde aquí.</p>
                 </div>
+                <Button variant="outline" onClick={() => setIsAuthenticated(false)}>
+                    <LogOut className="mr-2 h-4 w-4" />
+                    Cerrar Sesión
+                </Button>
             </div>
 
             <Tabs defaultValue="sorteos" className="space-y-4">
@@ -70,8 +87,13 @@ export function AdminDashboard() {
                     <TabsTrigger value="sorteos" className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground border">Gestión de Contenido</TabsTrigger>
                     <TabsTrigger value="destacados" className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground border">Sorteos Destacados</TabsTrigger>
                     <TabsTrigger value="noticias" className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground border">Noticias</TabsTrigger>
-                    <TabsTrigger value="productos" className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground border">Portafolio de Productos</TabsTrigger>
+                    <TabsTrigger value="productos" className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground border">Soluciones Vecinos</TabsTrigger>
+                    <TabsTrigger value="juegos" className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground border">Portafolio Juegos</TabsTrigger>
                     <TabsTrigger value="estadisticas" className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground border">Estadísticas</TabsTrigger>
+                    <TabsTrigger value="configuracion" className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground border">
+                        <Settings className="mr-2 h-4 w-4" />
+                        Configuración
+                    </TabsTrigger>
                 </TabsList>
 
                 <TabsContent value="sorteos" className="space-y-4">
@@ -87,11 +109,19 @@ export function AdminDashboard() {
                 </TabsContent>
 
                 <TabsContent value="productos" className="space-y-4">
-                    <ProductsManager />
+                    <ComerProductsManager />
+                </TabsContent>
+
+                <TabsContent value="juegos" className="space-y-4">
+                    <ComerJuegosManager />
                 </TabsContent>
 
                 <TabsContent value="estadisticas" className="space-y-4">
-                    <StatisticsManager />
+                    <ComerStatisticsManager />
+                </TabsContent>
+
+                <TabsContent value="configuracion" className="space-y-4">
+                    <ComerSettingsManager />
                 </TabsContent>
             </Tabs>
             <Toaster />
@@ -118,7 +148,7 @@ function RafflesManager() {
         try {
             const res = await fetch("/api/sorteos")
             const data = await res.json()
-            setRaffles(data)
+            setRaffles(Array.isArray(data) ? data : [])
         } catch (error) {
             console.error("Error fetching raffles:", error)
         } finally {
@@ -372,7 +402,7 @@ function FeaturedRafflesManager() {
         try {
             const res = await fetch("/api/sorteos-destacados")
             const data = await res.json()
-            setRaffles(data)
+            setRaffles(Array.isArray(data) ? data : [])
         } catch (error) {
             console.error("Error fetching featured raffles:", error)
         } finally {
@@ -534,7 +564,7 @@ function NewsManager() {
         try {
             const res = await fetch("/api/noticias")
             const data = await res.json()
-            setNews(data)
+            setNews(Array.isArray(data) ? data : [])
         } catch (error) {
             console.error("Error fetching news:", error)
         } finally {

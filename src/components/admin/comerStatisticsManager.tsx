@@ -26,7 +26,9 @@ const availableIcons = [
     { name: "LineChart", icon: LineChart },
 ]
 
-export function StatisticsManager() {
+import "@/styles/comerAdmin.css"
+
+export function ComerStatisticsManager() {
     const { toast } = useToast()
     const [stats, setStats] = useState<Statistic[]>([])
     const [loading, setLoading] = useState(true)
@@ -41,7 +43,7 @@ export function StatisticsManager() {
             const res = await fetch(`/api/estadisticas?t=${Date.now()}`)
             if (!res.ok) throw new Error("Error fetching stats")
             const data = await res.json()
-            setStats(data)
+            setStats(Array.isArray(data) ? data : [])
         } catch (error) {
             console.error("Error:", error)
             toast({
@@ -74,6 +76,7 @@ export function StatisticsManager() {
             toast({
                 title: "Éxito",
                 description: "Estadísticas actualizadas correctamente",
+                variant: "success",
             })
         } catch (error) {
             console.error("Error:", error)

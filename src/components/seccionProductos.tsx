@@ -5,15 +5,68 @@ import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog"
-import { Ticket, FileText, Smartphone, CreditCard, LayoutGrid, CheckCircle2, Info } from "lucide-react"
+import { Ticket, FileText, Smartphone, CreditCard, LayoutGrid, CheckCircle2, Info, Star, Shield, Zap, Home, ShoppingBag as ShoppingCart } from "lucide-react"
 
-export function SeccionProductos() {
-  const [products, setProducts] = useState<any[]>([])
+// Icon mapping for configuration
+const ICON_MAP: Record<string, any> = {
+  LayoutGrid,
+  Star,
+  Shield,
+  Zap,
+  Ticket,
+  FileText,
+  Smartphone,
+  CreditCard,
+  CheckCircle2,
+  Info,
+  Home,
+  ShoppingCart
+}
+
+interface SeccionProductosProps {
+  badgeText?: string
+  badgeIconName?: string
+  titleText?: string
+  titleIconName?: string
+  descriptionText?: string
+
+  // Visibility Controls
+  showBadge?: boolean
+  showTitle?: boolean
+  showDescription?: boolean
+
+  // Data Override
+  products?: any[]
+}
+
+export function SeccionProductos({
+  badgeText = "Portafolio Integral",
+  badgeIconName = "LayoutGrid",
+  titleText = "Soluciones que tus vecinos buscan a diario",
+  titleIconName,
+  descriptionText = "Convierte tu negocio en el banco y centro de entretenimiento del barrio.",
+
+  showBadge = true,
+  showTitle = true,
+  showDescription = true,
+
+  products: initialProducts
+}: SeccionProductosProps) {
+  const [products, setProducts] = useState<any[]>(initialProducts || [])
   const [selectedProduct, setSelectedProduct] = useState<any | null>(null)
   const [isDialogOpen, setIsDialogOpen] = useState(false)
-  const [loading, setLoading] = useState(true)
+  const [loading, setLoading] = useState(!initialProducts)
+
+  const BadgeIcon = ICON_MAP[badgeIconName] || LayoutGrid
+  const TitleIcon = titleIconName ? ICON_MAP[titleIconName] : null
 
   useEffect(() => {
+    if (initialProducts) {
+      setProducts(initialProducts)
+      setLoading(false)
+      return
+    }
+
     fetch(`/api/productos?t=${Date.now()}`)
       .then(res => res.json())
       .then(data => {
@@ -21,11 +74,27 @@ export function SeccionProductos() {
         // but for simplicity we will render the icon dynamically or handle it.
         // Since we stored icon names as strings in JSON ("Ticket", "Smartphone", etc.),
         // we need a map to actual components.
-        setProducts(data)
+        if (Array.isArray(data)) {
+          setProducts(data)
+        } else {
+          console.error("API returned non-array data:", data)
+          setProducts([])
+        }
         setLoading(false)
       })
-      .catch(err => console.error(err))
-  }, [])
+      .catch(err => {
+        console.error(err)
+        setLoading(false)
+      })
+  }, [initialProducts])
+
+  // Helper to get icon component
+  const getIconComponent = (iconName: string | any) => {
+    if (typeof iconName === 'string') {
+      return ICON_MAP[iconName] || Star
+    }
+    return iconName || Star
+  }
 
   const handleViewDetails = (product: any) => {
     setSelectedProduct(product)
@@ -37,49 +106,68 @@ export function SeccionProductos() {
       <div className="container mx-auto px-4">
         {/* Header */}
         <div className="text-center mb-12">
-          <Badge variant="secondary" className="mb-4">
-            <LayoutGrid className="h-3 w-3 mr-1" />
-            Portafolio Integral
-          </Badge>
-          <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4 text-balance">
-            Soluciones que tus vecinos buscan a diario
-          </h2>
-          <p className="text-muted-foreground max-w-2xl mx-auto">
-            Convierte tu negocio en el banco y centro de entretenimiento del barrio.
-          </p>
+          {showBadge && (
+            <Badge variant="secondary" className="mb-4">
+              <BadgeIcon className="h-3 w-3 mr-1" />
+              {badgeText}
+            </Badge>
+          )}
+
+          {showTitle && (
+            <div className="flex items-center justify-center gap-3 mb-4">
+              {TitleIcon && <TitleIcon className="h-8 w-8 text-primary" />}
+              <h2 className="text-3xl md:text-4xl font-bold text-foreground text-balance">
+                {titleText}
+              </h2>
+            </div>
+          )}
+
+          {showDescription && (
+            <p className="text-muted-foreground max-w-2xl mx-auto">
+              {descriptionText}
+            </p>
+          )}
         </div>
 
         {/* Products Grid */}
         <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-          {products.map((product) => (
-            <Card
-              key={product.id}
-              className="group hover:shadow-xl transition-all duration-300 border-border hover:border-primary/50 cursor-pointer"
-            >
-              <CardContent className="p-6">
-                <div className="flex items-center justify-center w-14 h-14 rounded-xl bg-primary/10 text-primary mb-4 group-hover:scale-110 transition-transform">
-                  <product.icon className="h-7 w-7" />
-                </div>
+          {products.map((product) => {
+            const ProductIcon = getIconComponent(product.icon)
 
-                <Badge variant="outline" className="mb-3 text-xs">
-                  {product.category}
-                </Badge>
+            return (
+              <Card
+                key={product.id}
+                className="group hover:shadow-xl transition-all duration-300 border-border hover:border-primary/50 cursor-pointer"
+              >
+                <CardContent className="p-6">
+                  <div className="flex items-center justify-center w-14 h-14 rounded-xl bg-primary/10 text-primary mb-4 group-hover:scale-110 transition-transform overflow-hidden">
+                    {product.image ? (
+                      <img src={product.image} alt={product.name} className="w-full h-full object-cover" />
+                    ) : (
+                      <ProductIcon className="h-7 w-7" />
+                    )}
+                  </div>
 
-                <h3 className="text-lg font-bold text-foreground mb-2">{product.name}</h3>
+                  <Badge variant="outline" className="mb-3 text-xs">
+                    {product.category}
+                  </Badge>
 
-                <p className="text-muted-foreground text-sm leading-relaxed mb-4">{product.description}</p>
+                  <h3 className="text-lg font-bold text-foreground mb-2">{product.name}</h3>
 
-                <Button
-                  variant="outline"
-                  className="w-full border-primary text-primary hover:bg-primary hover:text-primary-foreground"
-                  onClick={() => handleViewDetails(product)}
-                >
-                  <Info className="h-4 w-4 mr-2" />
-                  Ver Detalles
-                </Button>
-              </CardContent>
-            </Card>
-          ))}
+                  <p className="text-muted-foreground text-sm leading-relaxed mb-4">{product.description}</p>
+
+                  <Button
+                    variant="outline"
+                    className="w-full border-primary text-primary hover:bg-primary hover:text-primary-foreground"
+                    onClick={() => handleViewDetails(product)}
+                  >
+                    <Info className="h-4 w-4 mr-2" />
+                    Ver Detalles
+                  </Button>
+                </CardContent>
+              </Card>
+            )
+          })}
         </div>
 
       </div>
@@ -91,8 +179,15 @@ export function SeccionProductos() {
             <>
               <DialogHeader>
                 <div className="flex items-center gap-4 mb-2">
-                  <div className="flex items-center justify-center w-12 h-12 rounded-xl bg-primary/10 text-primary">
-                    <selectedProduct.icon className="h-6 w-6" />
+                  <div className={`flex items-center justify-center w-16 h-16 rounded-2xl bg-primary/10 text-primary overflow-hidden`}>
+                    {selectedProduct.image ? (
+                      <img src={selectedProduct.image} alt={selectedProduct.name} className="w-full h-full object-cover" />
+                    ) : (
+                      (() => {
+                        const SelectedIcon = getIconComponent(selectedProduct.icon)
+                        return <SelectedIcon className="h-8 w-8" />
+                      })()
+                    )}
                   </div>
                   <div>
                     <DialogTitle className="text-2xl">{selectedProduct.name}</DialogTitle>
