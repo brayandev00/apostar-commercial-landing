@@ -18,7 +18,7 @@ export function SeccionBeneficios() {
         },
         {
             icon: Smile,
-            title: "Facilidad de Uso",
+            title: "Marca Reconocida",
             description: "Plataformas intuitivas y capacitación constante para que vendas sin complicaciones.",
             color: "text-orange-500",
             bg: "bg-orange-500/10",

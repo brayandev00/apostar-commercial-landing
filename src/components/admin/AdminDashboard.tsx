@@ -67,7 +67,7 @@ export function AdminDashboard() {
 
             <Tabs defaultValue="sorteos" className="space-y-4">
                 <TabsList className="mb-4 flex-wrap h-auto gap-2 bg-transparent justify-start p-0">
-                    <TabsTrigger value="sorteos" className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground border">Gestión de Sorteos</TabsTrigger>
+                    <TabsTrigger value="sorteos" className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground border">Gestión de Contenido</TabsTrigger>
                     <TabsTrigger value="destacados" className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground border">Sorteos Destacados</TabsTrigger>
                     <TabsTrigger value="noticias" className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground border">Noticias</TabsTrigger>
                     <TabsTrigger value="productos" className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground border">Portafolio de Productos</TabsTrigger>
