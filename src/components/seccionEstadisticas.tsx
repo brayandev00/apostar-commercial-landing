@@ -1,11 +1,15 @@
-import { TrendingUp, Users, Trophy, Gift } from "lucide-react"
+import { TrendingUp, Users, Trophy, Gift, Activity, BarChart, PieChart, LineChart } from "lucide-react"
 import { useEffect, useState } from "react"
 
 const iconMap: Record<string, any> = {
   "Users": Users,
   "Trophy": Trophy,
   "Gift": Gift,
-  "TrendingUp": TrendingUp
+  "TrendingUp": TrendingUp,
+  "Activity": Activity,
+  "BarChart": BarChart,
+  "PieChart": PieChart,
+  "LineChart": LineChart
 }
 
 interface Statistic {

@@ -5,8 +5,8 @@
     "label": "Aliados Activos"
   },
   {
-    "icon": "Trophy",
-    "value": "150+",
+    "icon": "BarChart",
+    "value": "120+",
     "label": "Sorteos Mensuales"
   },
   {
@@ -15,7 +15,7 @@
     "label": "Comisiones Pagadas"
   },
   {
-    "icon": "TrendingUp",
+    "icon": "LineChart",
     "value": "35+",
     "label": "Años de Experiencia"
   }

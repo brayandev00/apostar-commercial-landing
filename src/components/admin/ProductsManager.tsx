@@ -153,17 +153,58 @@ export function ProductsManager() {
             return p
         }))
     }
+    const handleAddProduct = () => {
+        const newId = Date.now()
+        const newProduct: Product = {
+            id: newId,
+            name: "Nuevo Producto",
+            description: "Descripción corta del producto...",
+            icon: "Star", // Default icon
+            available: true,
+            category: "General",
+            details: {
+                fullDescription: "Descripción detallada...",
+                benefits: ["Beneficio 1"],
+                requirements: ["Requisito 1"],
+                commission: "0%",
+                minInvestment: "$0"
+            }
+        }
+        setProducts([...products, newProduct])
+        toast({
+            title: "Producto Agregado",
+            description: "Se ha creado un nuevo producto. Edítalo y guarda los cambios.",
+        })
+    }
+
+    const handleDeleteProduct = (id: number | string) => {
+        if (!confirm("¿Estás seguro de eliminar este producto?")) return
+        setProducts(products.filter(p => p.id !== id))
+        toast({
+            title: "Producto Eliminado",
+            description: "No olvides guardar los cambios para hacerlo permanente.",
+        })
+    }
 
     if (loading) return <div className="flex justify-center p-8"><Loader2 className="animate-spin" /></div>
 
     return (
         <div className="space-y-6">
-            <div className="flex justify-between items-center">
-                <h2 className="text-xl font-bold">Portafolio de Productos</h2>
-                <Button onClick={handleSave} disabled={saving}>
-                    {saving ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <Save className="mr-2 h-4 w-4" />}
-                    Guardar Cambios
-                </Button>
+            <div className="flex justify-between items-center bg-muted/30 p-4 rounded-lg border">
+                <div>
+                    <h2 className="text-xl font-bold">Portafolio de Productos</h2>
+                    <p className="text-sm text-muted-foreground">Gestiona los productos visibles en la web.</p>
+                </div>
+                <div className="flex gap-2">
+                    <Button variant="outline" onClick={handleAddProduct}>
+                        <Plus className="mr-2 h-4 w-4" />
+                        Agregar Nuevo
+                    </Button>
+                    <Button onClick={handleSave} disabled={saving}>
+                        {saving ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <Save className="mr-2 h-4 w-4" />}
+                        Guardar Cambios
+                    </Button>
+                </div>
             </div>
 
             <Tabs defaultValue={products[0]?.id.toString()} className="w-full">
@@ -183,8 +224,16 @@ export function ProductsManager() {
                     <TabsContent key={product.id} value={product.id.toString()}>
                         <Card>
                             <CardHeader>
-                                <CardTitle>Editar {product.name}</CardTitle>
-                                <CardDescription>Modifica la información visible en la página web.</CardDescription>
+                                <div className="flex justify-between items-start">
+                                    <div>
+                                        <CardTitle>Editar {product.name}</CardTitle>
+                                        <CardDescription>Modifica la información visible en la página web.</CardDescription>
+                                    </div>
+                                    <Button variant="destructive" size="sm" onClick={() => handleDeleteProduct(product.id)}>
+                                        <Trash2 className="h-4 w-4 mr-2" />
+                                        Eliminar Producto
+                                    </Button>
+                                </div>
                             </CardHeader>
                             <CardContent className="space-y-6">
                                 <div className="grid gap-4 md:grid-cols-2">

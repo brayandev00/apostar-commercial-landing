@@ -121,5 +121,25 @@
     "category": "nose",
     "description": "r4tg54",
     "id": 1764958138055
+  },
+  {
+    "id": 1764967331969,
+    "name": "yo soy loki",
+    "description": "Descripción corta del producto...vbvrgbvrt",
+    "icon": "Star",
+    "available": true,
+    "category": "General",
+    "details": {
+      "fullDescription": "Descripción detallada...rvr",
+      "benefits": [
+        "Beneficio 1",
+        ""
+      ],
+      "requirements": [
+        "Requisito 1"
+      ],
+      "commission": "1234%",
+      "minInvestment": "$0"
+    }
   }
 ]
