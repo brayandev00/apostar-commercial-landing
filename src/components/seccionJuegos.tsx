@@ -402,9 +402,7 @@ export function SeccionJuegos({
 
                 {/* CTA */}
                 <div className="pt-4">
-                  <Button className="w-full bg-primary text-primary-foreground hover:bg-primary/90" size="lg">
-                    Solicitar Activación de {selectedGame.name}
-                  </Button>
+
                 </div>
               </div>
             </>

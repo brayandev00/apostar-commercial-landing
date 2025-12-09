@@ -207,7 +207,7 @@ export function SeccionProductos({
                     Beneficios
                   </h3>
                   <ul className="space-y-2">
-                    {selectedProduct.details.benefits.map((benefit, index) => (
+                    {selectedProduct.details.benefits.map((benefit: any, index: number) => (
                       <li key={index} className="flex items-start gap-2 text-sm text-muted-foreground">
                         <CheckCircle2 className="h-4 w-4 text-green-600 flex-shrink-0 mt-0.5" />
                         <span>{benefit}</span>
@@ -223,7 +223,7 @@ export function SeccionProductos({
                     Requisitos
                   </h3>
                   <ul className="space-y-2">
-                    {selectedProduct.details.requirements.map((requirement, index) => (
+                    {selectedProduct.details.requirements.map((requirement: any, index: number) => (
                       <li key={index} className="flex items-start gap-2 text-sm text-muted-foreground">
                         <div className="h-1.5 w-1.5 rounded-full bg-primary flex-shrink-0 mt-1.5" />
                         <span>{requirement}</span>
@@ -246,9 +246,7 @@ export function SeccionProductos({
 
                 {/* CTA */}
                 <div className="pt-4">
-                  <Button className="w-full bg-primary text-primary-foreground hover:bg-primary/90" size="lg">
-                    Solicitar Activación de {selectedProduct.name}
-                  </Button>
+
                 </div>
               </div>
             </>
