@@ -1,0 +1,13 @@
+name: aliados_apostar
+
+services:
+  app_main:
+    env_file:
+      - ./.env
+    build:
+      context: ../../
+      dockerfile: docker/dev/base.Dockerfile
+      target: build-main
+    command: pnpm preview --host
+    ports:
+      - "4321:4321"
