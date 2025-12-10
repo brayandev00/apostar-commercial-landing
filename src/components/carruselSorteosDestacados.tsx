@@ -28,16 +28,44 @@ export function CarruselSorteosDestacados() {
     const [raffles, setRaffles] = useState<FeaturedRaffle[]>([])
     const [loading, setLoading] = useState(true)
 
+    const DEFAULT_RAFFLES: FeaturedRaffle[] = [
+        {
+            id: 1,
+            titulo: "Gran Sorteo Millonario",
+            descripcion: "¡Participa por un premio mayor acumulado increíble! No te quedes sin tu boleto.",
+            imagen: "",
+            fechaSorteo: "Próximo Sábado",
+            activo: true,
+            enlace: "#"
+        },
+        {
+            id: 2,
+            titulo: "Sorteo Especial de Fin de Mes",
+            descripcion: "Cierra el mes con broche de oro. Premios en efectivo y sorpresas.",
+            imagen: "",
+            fechaSorteo: "30 de este mes",
+            activo: true
+        }
+    ];
+
     useEffect(() => {
         fetch(`/api/sorteos-destacados?t=${Date.now()}`)
-            .then(res => res.json())
+            .then(res => {
+                if (!res.ok) throw new Error("Network response was not ok");
+                return res.json();
+            })
             .then(data => {
-                const activeRaffles = data.filter((r: FeaturedRaffle) => r.activo)
-                setRaffles(activeRaffles)
+                if (Array.isArray(data) && data.length > 0) {
+                    const activeRaffles = data.filter((r: FeaturedRaffle) => r.activo);
+                    setRaffles(activeRaffles.length > 0 ? activeRaffles : DEFAULT_RAFFLES);
+                } else {
+                    setRaffles(DEFAULT_RAFFLES);
+                }
                 setLoading(false)
             })
             .catch(err => {
                 console.error("Error loading featured raffles:", err)
+                setRaffles(DEFAULT_RAFFLES);
                 setLoading(false)
             })
     }, [])
@@ -98,7 +126,6 @@ export function CarruselSorteosDestacados() {
                                 <div key={raffle.id} className="flex-[0_0_100%] min-w-0 px-4">
                                     <Card className="border-0 shadow-2xl overflow-hidden max-w-4xl mx-auto">
                                         <CardContent className="p-0 relative">
-                                            {/* Background Image */}
                                             {/* Background Image */}
                                             {raffle.imagen && (
                                                 <>

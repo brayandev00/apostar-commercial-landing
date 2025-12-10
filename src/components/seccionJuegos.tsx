@@ -334,7 +334,7 @@ export function SeccionJuegos({
                   </div>
                 </div>
                 <DialogDescription className="text-base leading-relaxed pt-3">
-                  {selectedGame.details.fullDescription}
+                  {selectedGame.details?.fullDescription || selectedGame.description}
                 </DialogDescription>
               </DialogHeader>
 
@@ -346,7 +346,7 @@ export function SeccionJuegos({
                     Cómo Jugar
                   </h3>
                   <ol className="space-y-2">
-                    {selectedGame.details.howToPlay.map((step, index) => (
+                    {(selectedGame.details?.howToPlay || []).map((step: string, index: number) => (
                       <li key={index} className="flex items-start gap-3 text-sm text-muted-foreground">
                         <span className="flex items-center justify-center w-6 h-6 rounded-full bg-primary/10 text-primary font-bold text-xs flex-shrink-0">
                           {index + 1}
@@ -364,7 +364,7 @@ export function SeccionJuegos({
                     Premios
                   </h3>
                   <ul className="space-y-2">
-                    {selectedGame.details.prizes.map((prize, index) => (
+                    {(selectedGame.details?.prizes || []).map((prize: string, index: number) => (
                       <li key={index} className="flex items-start gap-2 text-sm text-muted-foreground">
                         <DollarSign className="h-4 w-4 text-green-600 flex-shrink-0 mt-0.5" />
                         <span>{prize}</span>
@@ -380,14 +380,14 @@ export function SeccionJuegos({
                       <Clock className="h-5 w-5 text-blue-600" />
                       <p className="text-xs font-semibold text-muted-foreground">Horarios</p>
                     </div>
-                    <p className="text-sm font-bold text-foreground">{selectedGame.details.schedule}</p>
+                    <p className="text-sm font-bold text-foreground">{selectedGame.details?.schedule || 'Consultar horarios'}</p>
                   </div>
                   <div className="bg-green-50 dark:bg-green-950/20 p-4 rounded-lg">
                     <div className="flex items-center gap-2 mb-2">
                       <DollarSign className="h-5 w-5 text-green-600" />
                       <p className="text-xs font-semibold text-muted-foreground">Apuesta Mínima</p>
                     </div>
-                    <p className="text-sm font-bold text-foreground">{selectedGame.details.minBet}</p>
+                    <p className="text-sm font-bold text-foreground">{selectedGame.details?.minBet || 'Consultar'}</p>
                   </div>
                 </div>
 
@@ -397,7 +397,7 @@ export function SeccionJuegos({
                     <TrendingUp className="h-5 w-5 text-primary" />
                     Detalles de Comisión
                   </h4>
-                  <p className="text-sm text-muted-foreground">{selectedGame.details.commissionDetails}</p>
+                  <p className="text-sm text-muted-foreground">{selectedGame.details?.commissionDetails || `Comisión: ${selectedGame.commission}`}</p>
                 </div>
 
                 {/* CTA */}

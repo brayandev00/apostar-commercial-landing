@@ -90,15 +90,27 @@ export function SeccionSorteos() {
 
   useEffect(() => {
     fetch("/api/sorteos")
-      .then(res => res.json())
+      .then(res => {
+        if (!res.ok) {
+          throw new Error(`HTTP error! status: ${res.status}`);
+        }
+        return res.json();
+      })
       .then(data => {
-        setRaffles(data)
-        setLoading(false)
+        if (Array.isArray(data) && data.length > 0) {
+          setRaffles(data);
+        } else {
+          console.warn("API returned empty or invalid data, using defaults");
+          setRaffles(raffles);
+        }
+        setLoading(false);
       })
       .catch(err => {
-        console.error("Error loading raffles:", err)
-        setLoading(false)
-      })
+        console.error("Error loading raffles:", err);
+        console.log("Using default raffles data");
+        setRaffles(raffles);
+        setLoading(false);
+      });
   }, [])
 
   const scrollPrev = useCallback(() => {
@@ -240,7 +252,7 @@ export function SeccionSorteos() {
                       Imágenes Promocionales
                     </h3>
                     <div className="grid grid-cols-1 gap-4">
-                      {selectedRaffle.promotionalMaterial.images.map((img, idx) => (
+                      {selectedRaffle.promotionalMaterial.images.map((img: string, idx: number) => (
                         <div key={idx} className="relative rounded-lg overflow-hidden border-2 border-border">
                           <img
                             src={img}
@@ -264,7 +276,7 @@ export function SeccionSorteos() {
                       Documentos Descargables
                     </h3>
                     <div className="space-y-2">
-                      {selectedRaffle.promotionalMaterial.pdfs.map((pdf, idx) => (
+                      {selectedRaffle.promotionalMaterial.pdfs.map((pdf: any, idx: number) => (
                         <a
                           key={idx}
                           href={pdf.url}
