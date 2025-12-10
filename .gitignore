@@ -1,1 +1,52 @@
-node_modules
+# build output
+dist/
+
+# generated types
+.astro/
+
+# dependencies
+node_modules/
+
+# Lock files
+pnpm-lock.yaml
+
+# logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# environment variables
+.env
+.env.production
+
+# macOS-specific files
+.DS_Store
+
+# Docker local volumes
+proxy/conf.d/*
+proxy/ssl/*
+
+# Environments
+.env*
+.venv
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+
+!.env*-template
+
+# IDE - VSCode
+.vscode/*
+!.vscode/*-template.json
+!.vscode/*-template.jsonc
+!.vscode/extensions.json
+
+# Keep .gitkeep files
+# To keep an empty directory, add a .gitkeep file to it
+# and ignore the directory with a wildcard:
+#     /path/to/dir/*
+# this will ignore the content but not the director itself.
+!/**/.gitkeep
